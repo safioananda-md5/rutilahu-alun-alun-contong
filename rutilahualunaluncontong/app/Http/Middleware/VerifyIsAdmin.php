@@ -16,7 +16,6 @@ class VerifyIsAdmin
     public function handle(Request $request, Closure $next): Response
     {
         $role_id = $request->user()->role_id;
-        dd($role_id);
         return $next($request);
     }
 }
