@@ -14,6 +14,29 @@
 # Client Carousel
 --------------------------------------------------------------*/
 /*--------------------------------------------------------------
+# Costum
+--------------------------------------------------------------*/
+
+@media (min-width: 769px) {
+  .main-menu__wrapper-inner {
+    display: flex;
+    padding: 30px 0;
+  }
+}
+
+@media (min-width: 1200px) {
+  .main-menu__main-menu-box {
+    width: 750px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-menu__wrapper-inner {
+    display: block;
+    padding: 30px;
+  }
+}
+/*--------------------------------------------------------------
 # Common
 --------------------------------------------------------------*/
 :root {
@@ -627,11 +650,6 @@ ul {
   display: block;
 }
 
-.main-menu__wrapper-inner {
-  display: block;
-  padding: 30px 0;
-}
-
 .main-menu__left {
   display: block;
   float: left;
@@ -646,7 +664,6 @@ ul {
 
 .main-menu__main-menu-box {
   display: flex;
-  float: left;
   align-items: center;
   background-color: var(--insur-extra);
   padding-left: 30px;
@@ -655,12 +672,14 @@ ul {
 
 .main-menu__main-menu-box-inner {
   display: block;
+  float: left;
 }
 
 .main-menu__main-menu-box-search-get-quote-btn {
   display: flex;
   align-items: center;
   padding-left: 70px;
+  float: right;
 }
 
 .main-menu__main-menu-box-search {
@@ -693,9 +712,10 @@ ul {
 
 .main-menu__main-menu-box-get-quote-btn {
   font-size: 14px;
-  padding: 12px 30px 12px;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
+  border-radius: 0 10px 10px 0;
+  background-color: #6d1414;
+  width: 100px;
+  height: 50px;
 }
 
 .main-menu__right {
@@ -752,9 +772,16 @@ ul {
 }
 
 .main-menu__call-content p {
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--insur-black);
   letter-spacing: var(--insur-letter-spacing);
   line-height: 16px;
+
+  max-width: 130px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .main-menu .main-menu__list,
@@ -13823,7 +13850,7 @@ body.boxed-wrapper {
 }
 
 .main-menu__right {
-  float: left;
+  float: right;
   margin-left: 20px;
 }
 

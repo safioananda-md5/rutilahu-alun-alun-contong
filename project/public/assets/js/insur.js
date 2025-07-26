@@ -308,7 +308,7 @@
       $("html, body").animate({
           scrollTop: $(target).offset().top
         },
-        1000
+        100
       );
 
       return false;
