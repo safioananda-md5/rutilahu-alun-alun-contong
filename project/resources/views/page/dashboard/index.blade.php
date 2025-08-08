@@ -298,7 +298,7 @@
     <!--Counter One End-->
 
     <!--News One Start-->
-    <section class="news-one">
+    <section class="news-one mt-5">
         <div class="container">
             <div class="section-title text-center">
                 <div class="section-sub-title-box">
