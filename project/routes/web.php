@@ -1,18 +1,31 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WilayahController;
+use App\Http\Controllers\RegisterController;
 
 Route::get('/', function () {
     return redirect('/home');
 })->name("index");
 
+// Data wilayah
+Route::get('/provinces', [WilayahController::class, 'getProvinces']);
+Route::get('/cities/{id}', [WilayahController::class, 'getCities']);
+Route::get('/district/{id}', [WilayahController::class, 'getDistrict']);
+Route::get('/village/{id}', [WilayahController::class, 'getVillage']);
+
 Route::get('/login', function () {
     return view('auth.login');
 })->name("login");
 
+// Register
 Route::get('/register', function () {
+    // flash()->success('Product created successfully!');
     return view('auth.register');
 })->name("register");
+Route::post('/register', [RegisterController::class, 'store'])->name("register.store");
+
+
 
 Route::get('/home', function () {
     return view('page.dashboard.index');

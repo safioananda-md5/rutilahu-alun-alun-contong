@@ -21,5 +21,8 @@
     @include('layouts.mobile_nav')
     @include('layouts.scroll_to_top')
     @include('layouts.script')
+
+    @yield('scripts')
 </body>
+
 </html>

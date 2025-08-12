@@ -13,6 +13,21 @@
 # Google Map
 # Client Carousel
 --------------------------------------------------------------*/
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Hilangkan spinner di Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.fl-wrapper {
+    z-index: 99999 !important; /* Lebih tinggi dari navbar overlay */
+}
 /*--------------------------------------------------------------
 # Common
 --------------------------------------------------------------*/
@@ -12445,11 +12460,35 @@ body.boxed-wrapper {
   font-size: 18px;
 }
 
+.product__showing-register {
+  position: relative;
+  display: block;
+}
+
 .product__showing-sort {
   position: relative;
   display: block;
   max-width: 340px;
   width: 100%;
+}
+
+.product__showing-register .select-box .nice-select {
+  position: relative;
+  height: 60px;
+  outline: none;
+  border-radius: var(--insur-bdr-radius);
+  border: 0;
+  background-color: var(--insur-extra);
+  margin: 0px 0px 20px 0px;
+  padding: 0;
+  padding-left: 30px;
+  padding-right: 30px;
+  color: var(--insur-gray);
+  font-size: 14px;
+  line-height: 60px;
+  font-weight: 400;
+  box-shadow: none;
+  letter-spacing: var(--insur-letter-spacing);
 }
 
 .product__showing-sort .select-box .nice-select {
@@ -12469,6 +12508,11 @@ body.boxed-wrapper {
   font-weight: 400;
   box-shadow: none;
   letter-spacing: var(--insur-letter-spacing);
+}
+
+.product__showing-register .select-box .nice-select:after {
+  position: absolute;
+  right: 30px;
 }
 
 .product__showing-sort .select-box .nice-select:after {
@@ -20256,7 +20300,9 @@ body.boxed-wrapper {
 }
 
 .sign-in__form-input-box input[type=email],
-.sign-in__form-input-box input[type=password] {
+.sign-in__form-input-box input[type=password],
+.sign-in__form-input-box input[type=text],
+.sign-in__form-input-box input[type=number] {
   height: 60px;
   width: 100%;
   border: none;

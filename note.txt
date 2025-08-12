@@ -1,0 +1,10 @@
+Halaman register
+    1. Simpan foto pada storage | ⁡⁣⁣⁢ok⁡
+    2. Uji apakah foto bisa di akses melalui url (https://laraveldaily.com/post/laravel-upload-file-and-hide-real-url-for-secure-download-under-uuid)
+    3. Buat cara mengirim kode otp ke email secara gratis 
+    4. Akan muncul halaman verivikasi email dan memasukkan kode (https://youtu.be/2Zn2prAfrzg?si=ecM9x8sCotigKOxz)
+    5. Jika berhasil ada tombol redirect ke login/ dalam waktu 10 detik akan redirect
+    
+
+
+    1. Cara send email melalui laravel(https://youtu.be/b1kNsxGH8mw?si=tWHGeZWcyKeRRK4K)

@@ -30,5 +30,7 @@
 <link rel="stylesheet" href="assets/vendors/jquery-ui/jquery-ui.css">
 <link rel="stylesheet" href="assets/vendors/timepicker/timePicker.css">
 <link rel="stylesheet" href="assets/vendors/ion.rangeSlider/css/ion.rangeSlider.min.css">
-<link rel="stylesheet" href="assets/vendors/nice-select/nice-select.css">
+<link rel="stylesheet" href="assets/vendors/nice-select2/nice-select2.min.css">
 <link rel="stylesheet" id="langLtr" href="assets/css/insur.css">
+
+<meta name="csrf-token" content="{{ csrf_token() }}">

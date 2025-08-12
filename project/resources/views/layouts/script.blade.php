@@ -23,5 +23,5 @@
 <script src="assets/vendors/circleType/jquery.circleType.js"></script>
 <script src="assets/vendors/circleType/jquery.lettering.min.js"></script>
 <script src="assets/vendors/ion.rangeSlider/js/ion.rangeSlider.min.js"></script>
-<script src="assets/vendors/nice-select/jquery.nice-select.min.js"></script>
+<script src="assets/vendors/nice-select2/nice-select2.min.js"></script>
 <script src="assets/js/insur.js"></script>
