@@ -1,12 +1,12 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\InformationController;
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WilayahController;
 use App\Http\Controllers\RegisterController;
-
-Route::get('/', function () {
-    return redirect('/home');
-})->name("index");
+use App\Http\Controllers\SubmissionController;
 
 // Data wilayah
 Route::get('/provinces', [WilayahController::class, 'getProvinces']);
@@ -14,39 +14,33 @@ Route::get('/cities/{id}', [WilayahController::class, 'getCities']);
 Route::get('/district/{id}', [WilayahController::class, 'getDistrict']);
 Route::get('/village/{id}', [WilayahController::class, 'getVillage']);
 
-Route::get('/login', function () {
-    return view('auth.login');
-})->name("login");
+// -------------------------==========
+
+Route::get('/', function () {
+    return redirect('/home');
+})->name("index");
+
+// Home
+Route::get('/home', [DashboardController::class, 'index'])->name("home");
+
+// Login
+Route::get('/login', [LoginController::class, 'index'])->name("login");
 
 // Register
-Route::get('/register', function () {
-    // flash()->success('Product created successfully!');
-    return view('auth.register');
-})->name("register");
+Route::get('/register', [RegisterController::class, 'index'])->name("register");
 Route::post('/register', [RegisterController::class, 'store'])->name("register.store");
 
+// User Page ===============---------------------------------
+// Information
+Route::get('/informasi', [InformationController::class, 'index'])->name("information");
+Route::get('/informasi-detail', [InformationController::class, 'detail'])->name("information_detail");
 
+// Submission
+Route::get('/pengajuan', [SubmissionController::class, 'index'])->name("pengajuan");
+Route::get('/formulir-pengajuan', [SubmissionController::class, 'create'])->name("formulir_pengajuan");
+// User Page ===============---------------------------------
 
-Route::get('/home', function () {
-    return view('page.dashboard.index');
-})->name("home");
-
-Route::get('/informasi', function () {
-    return view('page.information.index');
-})->name("information");
-
-Route::get('/informasi-detail', function () {
-    return view('page.information.detail');
-})->name("information_detail");
-
-Route::get('/pengajuan', function () {
-    return view('page.submission.index');
-})->name("pengajuan");
-
-Route::get('/formulir-pengajuan', function () {
-    return view('page.submission.form');
-})->name("formulir_pengajuan");
-
+// Admin Page ===============---------------------------------
 Route::get('/rt', function () {
     return view('page.dashboard.rtrw');
 })->name("dashboard_rt");
@@ -70,3 +64,4 @@ Route::get('/daftar-informasi', function () {
 Route::get('/tambah-informasi', function () {
     return view('page.information.add');
 })->name("tambah_informasi");
+// Admin Page ===============---------------------------------

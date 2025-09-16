@@ -7,4 +7,4 @@ Halaman register
     
 
 
-    1. Cara send email melalui laravel(https://youtu.be/b1kNsxGH8mw?si=tWHGeZWcyKeRRK4K)
+    1. Cara send email melalalui laravel(https://youtu.be/b1kNsxGH8mw?si=tWHGeZWcyKeRRK4K)

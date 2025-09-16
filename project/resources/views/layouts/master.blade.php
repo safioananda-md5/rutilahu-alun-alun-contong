@@ -12,8 +12,6 @@
     <div class="page-wrapper">
         @include('layouts.navbar')
         @include('layouts.sticky_navbar')
-
-        <?php echo $flasher; ?>
         
         @yield('content')
 

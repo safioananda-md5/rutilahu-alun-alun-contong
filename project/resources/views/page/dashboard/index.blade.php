@@ -265,7 +265,7 @@
                             </div>
                             <div class="counter-one__count-box">
                                 <div class="counter-one__count-box-inner">
-                                    <h3 class="odometer" data-count="2.8">00</h3>
+                                    <h3 class="odometer" data-count="1">00</h3>
                                     <span class="counter-one__plus">k</span>
                                 </div>
                             </div>

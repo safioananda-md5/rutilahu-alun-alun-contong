@@ -11,13 +11,15 @@ use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
+    public function index()
+    {
+        return view('auth.register');
+    }
+
     public function store(Request $request)
     {
-        // wajib validasi awal inputan
         $request->validate([
-            // berdasarkan name="" form
             'full_name' => 'required',
-            // |unique:users,email untuk melakukan query pengecekan email sudah ada atau belum
             'nik' => 'required|unique:users,nik|numeric|digits_between:16,16',
             'no_kk' => 'required|numeric|digits_between:16,16',
             'email' => 'required|email|unique:users,email',
