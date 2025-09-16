@@ -8,3 +8,25 @@ Halaman register
 
 
     1. Cara send email melalalui laravel(https://youtu.be/b1kNsxGH8mw?si=tWHGeZWcyKeRRK4K)
+
+
+
+    // Success message
+    flash()->success('Your changes have been saved!');
+
+    // Error message
+    flash()->error('Something went wrong!');
+
+    // Warning message
+    flash()->warning('Please review your data before proceeding.');
+
+    // Info message
+    flash()->info('The system will be down for maintenance tonight.');
+
+    JS____
+    <script>
+        import flasher from '@flasher/flasher';
+
+        flasher.success(data.message);
+        flasher.error(data.message);
+    </script>

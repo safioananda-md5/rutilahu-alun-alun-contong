@@ -6,13 +6,15 @@
 </head>
 
 <body class="custom-cursor">
+    @include('flasher::notify')
+
     @include('layouts.custom_cursor')
     @include('layouts.preloader')
 
     <div class="page-wrapper">
         @include('layouts.navbar')
         @include('layouts.sticky_navbar')
-        
+
         @yield('content')
 
         @include('layouts.footer')
