@@ -19,7 +19,9 @@ return new class extends Migration
             $table->string('password');
             $table->string('nik')->unique();
             $table->string('no_kk');
+            $table->string('phone')->unique();
             $table->string('pic_nik');
+            $table->string('pic_selfie_nik');
             $table->string('pic_no_kk');
             $table->rememberToken();
             $table->timestamps();

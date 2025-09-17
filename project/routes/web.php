@@ -1,12 +1,14 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\InformationController;
-use App\Http\Controllers\LoginController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\WilayahController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SubmissionController;
+use App\Http\Controllers\InformationController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 // Data wilayah
 Route::get('/provinces', [WilayahController::class, 'getProvinces']);
@@ -29,6 +31,23 @@ Route::get('/login', [LoginController::class, 'index'])->name("login");
 // Register
 Route::get('/register', [RegisterController::class, 'index'])->name("register");
 Route::post('/register', [RegisterController::class, 'store'])->name("register.store");
+Route::get('/email/verify/{id}/{hash}', [RegisterController::class, 'verifyEmail'])->name('verification.verify');
+// Route::post('/email/verification-notification', [RegisterController::class, 'verivicationSend'])->name('verification.send');
+
+// Verivied Email ================-----------------------------
+Route::get('/email/verify', function () {
+    return view('auth.verify-email'); // halaman tunggu verifikasi
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill(); // tandai email sudah verified
+    return redirect('/home')->with('status', 'Email berhasil diverifikasi!');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('status', 'Link verifikasi baru telah dikirim!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 // User Page ===============---------------------------------
 // Information

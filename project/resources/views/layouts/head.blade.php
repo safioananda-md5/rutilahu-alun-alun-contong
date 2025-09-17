@@ -1,6 +1,5 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title> Home | Rutilahu</title>
 <link rel="icon" type="image/png" href="assets/images/official/off_logo_surabaya.png">
 <link rel="manifest" href="assets/images/favicons/site.webmanifest">
 <meta name="description" content="HTML 5 Template">
@@ -8,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap"
     rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link rel="stylesheet" href="assets/vendors/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="assets/vendors/animate/animate.min.css">
 <link rel="stylesheet" href="assets/vendors/animate/custom-animate.css">

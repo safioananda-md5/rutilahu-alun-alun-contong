@@ -2,12 +2,11 @@
 <html lang="en">
 
 <head>
+    <title>@yield('title', 'Rutilahu Alun-Alun Contong Kota Surabaya')</title>
     @include('layouts.head')
 </head>
 
 <body class="custom-cursor">
-    @include('flasher::notify')
-
     @include('layouts.custom_cursor')
     @include('layouts.preloader')
 
