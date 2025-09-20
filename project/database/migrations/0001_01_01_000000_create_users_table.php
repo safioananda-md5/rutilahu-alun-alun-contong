@@ -20,9 +20,11 @@ return new class extends Migration
             $table->string('nik')->unique();
             $table->string('no_kk');
             $table->string('phone')->unique();
+            $table->timestamp('phone_verified_at')->nullable();
             $table->string('pic_nik');
             $table->string('pic_selfie_nik');
             $table->string('pic_no_kk');
+            $table->string('system_verified_status');
             $table->rememberToken();
             $table->timestamps();
         });

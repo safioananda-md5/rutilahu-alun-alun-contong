@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
@@ -60,6 +61,17 @@ Route::get('/formulir-pengajuan', [SubmissionController::class, 'create'])->name
 // User Page ===============---------------------------------
 
 // Admin Page ===============---------------------------------
+
+Route::group(['prefix' => '/admin', 'as' => 'admin.'], function () {
+    Route::get('/dashboard', [AdminController::class, 'index'])->name("dashboard_admin");
+    Route::get('/daftar-verifikasi-akun', [AdminController::class, 'account_verify'])->name("account_verify_admin");
+    Route::post('/data-verifikasi-akun', [AdminController::class, 'account_verify_data'])->name("account_verify_data");
+});
+
+
+// Admin Page ===============---------------------------------
+
+// RT RW Page ===============---------------------------------
 Route::get('/rt', function () {
     return view('page.dashboard.rtrw');
 })->name("dashboard_rt");
@@ -72,9 +84,6 @@ Route::get('/detail-pengajuan', function () {
     return view('page.submission.detail');
 })->name("detail_pengajuan");
 
-Route::get('/admin', function () {
-    return view('page.dashboard.admin');
-})->name("dashboard_admin");
 
 Route::get('/daftar-informasi', function () {
     return view('page.information.list');
@@ -83,4 +92,3 @@ Route::get('/daftar-informasi', function () {
 Route::get('/tambah-informasi', function () {
     return view('page.information.add');
 })->name("tambah_informasi");
-// Admin Page ===============---------------------------------

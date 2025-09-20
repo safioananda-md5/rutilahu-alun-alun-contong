@@ -12,12 +12,12 @@
 
 @include('layouts.sidebar')
 
+@yield('css')
+
 <main class="dashboard-main">
     @include('layouts.navbar_admin')
 
     <div class="dashboard-main-body">
-
-        @include('layouts.breadcrumb')
 
         @yield('content')
 
@@ -28,6 +28,7 @@
 
 @include('layouts.script_admin')
 
+@yield('script')
 </body>
 
 </html>

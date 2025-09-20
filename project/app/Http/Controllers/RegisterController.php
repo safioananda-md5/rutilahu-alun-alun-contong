@@ -92,9 +92,11 @@ class RegisterController extends Controller
                 'nik' => $request->nik,
                 'no_kk' => $request->no_kk,
                 'phone' => $request->phone,
+                'phone_verified_at' => null,
                 'pic_nik' => "none",
                 'pic_selfie_nik' => "none",
                 'pic_no_kk' => "none",
+                'system_verified_status' => 'unverified',
             ]);
 
             DB::commit();

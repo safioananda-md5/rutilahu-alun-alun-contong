@@ -11,70 +11,40 @@
     </div>
     <div class="sidebar-menu-area">
         <ul class="sidebar-menu" id="sidebar-menu">
-            <li class="dropdown">
+            <li>
                 <a href="javascript:void(0)">
                     <iconify-icon icon="solar:home-smile-angle-outline" class="menu-icon"></iconify-icon>
                     <span>Dashboard</span>
                 </a>
+            </li>
+            <li class="dropdown">
+                <a href="javascript:void(0)">
+                    <iconify-icon icon="flowbite:users-group-outline" class="menu-icon"></iconify-icon>
+                    <span>Akun Pengguna</span>
+                </a>
                 <ul class="sidebar-submenu">
                     <li>
-                        <a href="index.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> AI</a>
+                        <a href="{{ route('admin.account_verify_admin') }}"><i
+                                class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
+                            Daftar Verifikasi Akun</a>
+                    </li>
+                    {{-- <li>
+                        <a href="users-grid.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
+                            Users Grid</a>
                     </li>
                     <li>
-                        <a href="index-2.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
-                            CRM</a>
+                        <a href="add-user.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Add
+                            User</a>
                     </li>
                     <li>
-                        <a href="index-3.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i>
-                            eCommerce</a>
+                        <a href="view-profile.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i>
+                            View Profile</a>
                     </li>
                     <li>
-                        <a href="index-4.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i>
-                            Cryptocurrency</a>
-                    </li>
-                    <li>
-                        <a href="index-5.html"><i class="ri-circle-fill circle-icon text-success-main w-auto"></i>
-                            Investment</a>
-                    </li>
-                    <li>
-                        <a href="index-6.html"><i class="ri-circle-fill circle-icon text-purple w-auto"></i> LMS</a>
-                    </li>
-                    <li>
-                        <a href="index-7.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> NFT &
-                            Gaming</a>
-                    </li>
-                    <li>
-                        <a href="index-8.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i>
-                            Medical</a>
-                    </li>
-                    <li>
-                        <a href="index-9.html"><i class="ri-circle-fill circle-icon text-purple w-auto"></i>
-                            Analytics</a>
-                    </li>
-                    <li>
-                        <a href="index-10.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> POS
-                            & Inventory </a>
-                    </li>
-                    <li>
-                        <a href="index-11.html"><i class="ri-circle-fill circle-icon text-success-main w-auto"></i>
-                            Finance & Banking </a>
-                    </li>
-                    <li>
-                        <a href="index-12.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i>
-                            Booking System</a>
-                    </li>
-                    <li>
-                        <a href="index-13.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Help
-                            Desk</a>
-                    </li>
-                    <li>
-                        <a href="index-14.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
-                            Podcast </a>
-                    </li>
-                    <li>
-                        <a href="index-15.html"><i class="ri-circle-fill circle-icon text-purple w-auto"></i> Project
-                            Management </a>
-                    </li>
+                        <a href="users-role-permission.html"><i
+                                class="ri-circle-fill circle-icon text-info-main w-auto"></i> User Role &
+                            Permission</a>
+                    </li> --}}
                 </ul>
             </li>
             <li class="sidebar-menu-group-title">Application</li>

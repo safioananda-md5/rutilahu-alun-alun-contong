@@ -25,9 +25,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'nik',
         'no_kk',
         'phone',
+        'phone_verified_at',
         'pic_nik',
         'pic_selfie_nik',
         'pic_no_kk',
+        'system_verified_status',
     ];
 
     /**
