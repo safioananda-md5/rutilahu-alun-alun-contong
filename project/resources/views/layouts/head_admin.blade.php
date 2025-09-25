@@ -1,7 +1,6 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Wowdash - Bootstrap 5 Admin Dashboard HTML Template</title>
-<link rel="icon" type="image/png" href="{{ asset('assets/images/favicon.png') }}" sizes="16x16" />
+<link rel="icon" type="image/png" href="{{ asset('assets/images/official/off_logo_surabaya.png') }}">
 <!-- remix icon font css  -->
 <link rel="stylesheet" href="{{ asset('assets/css/remixicon.css') }}" />
 <!-- BootStrap css -->
@@ -32,5 +31,7 @@
 <link rel="stylesheet" href="{{ asset('assets/css/lib/audioplayer.css') }}" />
 <!-- main css -->
 <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@flasher/flasher/dist/flasher.min.css">
 
 <meta name="csrf-token" content="{{ csrf_token() }}">

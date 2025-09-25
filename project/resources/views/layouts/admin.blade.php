@@ -3,6 +3,7 @@
 <html lang="en" data-theme="light">
 
 <head>
+    <title>@yield('title', 'ADMIN | Rutilahu Alun-Alun Contong Kota Surabaya')</title>
     @include('layouts.head_admin')
 </head>
 

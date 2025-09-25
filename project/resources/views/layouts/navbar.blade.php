@@ -5,7 +5,8 @@
                 <div class="main-menu__wrapper-inner justify-content-between">
                     <div class="main-menu__left">
                         <div class="main-menu__logo">
-                            <a href="index.html"><img src="assets/images/resources/logo-1.png" alt=""></a>
+                            <a href="index.html"><img src="{{ asset('assets/images/resources/logo-1.png') }}"
+                                    alt=""></a>
                         </div>
                         <div class="main-menu__main-menu-box justify-content-between">
                             <div class="main-menu__main-menu-box-inner">

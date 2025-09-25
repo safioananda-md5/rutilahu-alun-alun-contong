@@ -53,7 +53,7 @@ Route::post('/email/verification-notification', function (Request $request) {
 // User Page ===============---------------------------------
 // Information
 Route::get('/informasi', [InformationController::class, 'index'])->name("information");
-Route::get('/informasi-detail', [InformationController::class, 'detail'])->name("information_detail");
+Route::get('/informasi-detail/{id}', [InformationController::class, 'detail'])->name("information_detail");
 
 // Submission
 Route::get('/pengajuan', [SubmissionController::class, 'index'])->name("pengajuan");
@@ -64,31 +64,48 @@ Route::get('/formulir-pengajuan', [SubmissionController::class, 'create'])->name
 
 Route::group(['prefix' => '/admin', 'as' => 'admin.'], function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name("dashboard_admin");
-    Route::get('/daftar-verifikasi-akun', [AdminController::class, 'account_verify'])->name("account_verify_admin");
-    Route::post('/data-verifikasi-akun', [AdminController::class, 'account_verify_data'])->name("account_verify_data");
+    Route::group(['prefix' => '/verifikasi', 'as' => 'verification.'], function () {
+        Route::get('/daftar-verifikasi-akun', [AdminController::class, 'account_verify'])->name("account_verify_admin");
+        Route::post('/data-verifikasi-akun', [AdminController::class, 'account_verify_data'])->name("account_verify_data");
+        Route::get('/detail-verifikasi-akun/{id}', [AdminController::class, 'account_verify_detail'])->name("account_verify_detail");
+        Route::get('/show/X18lqWqNA5sy/{id}', [AdminController::class, 'showKTP'])->name('showKTP');
+        Route::get('/show/KiapbdVqajxM/{id}', [AdminController::class, 'showSKTP'])->name('showSKTP');
+        Route::get('/show/s1q6IppjLCiR/{id}', [AdminController::class, 'showKK'])->name('showKK');
+        Route::post('/store/{id}', [AdminController::class, 'store'])->name('store');
+    });
+    Route::group(['prefix' => '/informasi', 'as' => 'information.'], function () {
+        Route::get('/daftar-informasi', [InformationController::class, 'list_information'])->name("list_information");
+        Route::get('/tambah-informasi', [InformationController::class, 'create_information'])->name("create_information");
+        Route::post('/store-informasi', [InformationController::class, 'store'])->name("store_information");
+        Route::get('/edit-informasi/{id}', [InformationController::class, 'edit_information'])->name("edit_information");
+        Route::put('/update-informasi/{id}', [InformationController::class, 'update_information'])->name("update_information");
+        Route::post('/destroy-informasi', [InformationController::class, 'destroy_information'])->name("destroy_information");
+        Route::delete('/destroy', [InformationController::class, 'destroy'])->name("destroy");
+    });
 });
+
 
 
 // Admin Page ===============---------------------------------
 
 // RT RW Page ===============---------------------------------
-Route::get('/rt', function () {
-    return view('page.dashboard.rtrw');
-})->name("dashboard_rt");
+// Route::get('/rt', function () {
+//     return view('page.dashboard.rtrw');
+// })->name("dashboard_rt");
 
-Route::get('/daftar-pengajuan', function () {
-    return view('page.submission.list');
-})->name("daftar_pengajuan");
+// Route::get('/daftar-pengajuan', function () {
+//     return view('page.submission.list');
+// })->name("daftar_pengajuan");
 
-Route::get('/detail-pengajuan', function () {
-    return view('page.submission.detail');
-})->name("detail_pengajuan");
+// Route::get('/detail-pengajuan', function () {
+//     return view('page.submission.detail');
+// })->name("detail_pengajuan");
 
 
-Route::get('/daftar-informasi', function () {
-    return view('page.information.list');
-})->name("daftar_informasi");
+// Route::get('/daftar-informasi', function () {
+//     return view('page.information.list');
+// })->name("daftar_informasi");
 
-Route::get('/tambah-informasi', function () {
-    return view('page.information.add');
-})->name("tambah_informasi");
+// Route::get('/tambah-informasi', function () {
+//     return view('page.information.add');
+// })->name("tambah_informasi");

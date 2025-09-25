@@ -4,6 +4,7 @@
 <head>
     <title>@yield('title', 'Rutilahu Alun-Alun Contong Kota Surabaya')</title>
     @include('layouts.head')
+    @yield('css')
 </head>
 
 <body class="custom-cursor">

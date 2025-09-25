@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('pic_no_kk');
             $table->string('system_verified_status');
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
 

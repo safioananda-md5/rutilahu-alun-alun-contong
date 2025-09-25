@@ -18,6 +18,8 @@
 <!-- main js -->
 <script src="{{ asset('assets/js/app.js') }}"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/@flasher/flasher/dist/flasher.min.js"></script>
+
 <script>
     var datatableSetting = {
         language: {

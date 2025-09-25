@@ -1,11 +1,12 @@
 @extends('layouts.admin')
+@section('title', 'Daftar Verifikasi Akun')
 
 @section('content')
     <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-24">
         <h6 class="fw-semibold mb-0">Daftar Verifikasi Akun</h6>
         <ul class="d-flex align-items-center gap-2">
             <li class="fw-medium">
-                <a href="index.html" class="d-flex align-items-center gap-1 hover-text-primary">
+                <a href="{{ route('admin.dashboard_admin') }}" class="d-flex align-items-center gap-1 hover-text-primary">
                     <iconify-icon icon="solar:home-smile-angle-outline" class="icon text-lg"></iconify-icon>
                     Dashboard
                 </a>
@@ -53,9 +54,9 @@
 
     <script>
         // $('#dataTable').DataTable(datatableSetting);
-        $('#dataTable').DataTable($.extend(true, {}, datatableSetting, {
+        let table = $('#dataTable').DataTable($.extend(true, {}, datatableSetting, {
             ajax: {
-                url: "{{ route('admin.account_verify_data') }}",
+                url: "{{ route('admin.verification.account_verify_data') }}",
                 type: "POST",
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -69,7 +70,7 @@
                     render: function(data, type, row) {
                         return row.created_at_display;
                     },
-                    searchable: false,
+                    searchable: true,
                     orderable: true
                 },
                 {
@@ -98,5 +99,9 @@
                 }
             ]
         }));
+
+        setInterval(function() {
+            table.ajax.reload(null, false);
+        }, 10000);
     </script>
 @endsection

@@ -28,7 +28,7 @@ class RegisterController extends Controller
                 'full_name' => 'required',
                 'nik' => 'required|unique:users,nik|numeric|digits_between:16,16',
                 'no_kk' => 'required|numeric|digits_between:16,16',
-                'email' => 'required|email|unique:users,email',
+                'email' => 'required|email:rfc,dns|unique:users,email',
                 'phone' => 'required|numeric|digits_between:10,15|unique:users,phone',
                 'password' => 'required|min:8|confirmed',
                 // 'address' => 'required',
@@ -38,9 +38,9 @@ class RegisterController extends Controller
                 // 'village' => 'required',
                 // 'rt' => 'required|numeric|digits_between:1,3',
                 // 'rw' => 'required|numeric|digits_between:1,3',
-                'foto_ktp' => 'required|mimes:jpeg,png,jpg,pdf|max:2048',
-                'foto_selfi_ktp' => 'required|mimes:jpeg,png,jpg,pdf|max:2048',
-                'foto_kk' => 'required|mimes:jpeg,png,jpg,pdf|max:2048',
+                'foto_ktp' => 'required|mimes:jpeg,png,jpg|max:2048',
+                'foto_selfi_ktp' => 'required|mimes:jpeg,png,jpg|max:2048',
+                'foto_kk' => 'required|mimes:jpeg,png,jpg|max:2048',
                 'validasi' => 'required',
                 'g-recaptcha-response' => 'required|captcha',
             ], [
@@ -86,7 +86,7 @@ class RegisterController extends Controller
             DB::beginTransaction();
 
             $user = User::create([
-                'name' => $request->full_name,
+                'name' => strtoupper($request->full_name),
                 'email' => $request->email,
                 'password' => Hash::make($request->input('password')),
                 'nik' => $request->nik,

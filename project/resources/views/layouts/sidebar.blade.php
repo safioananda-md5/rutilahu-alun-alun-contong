@@ -4,47 +4,36 @@
     </button>
     <div>
         <a href="index.html" class="sidebar-logo">
-            <img src="assets/images/logo.png" alt="site logo" class="light-logo">
-            <img src="assets/images/logo-light.png" alt="site logo" class="dark-logo">
-            <img src="assets/images/logo-icon.png" alt="site logo" class="logo-icon">
+            <img src="{{ asset('assets/images/logo.png') }}" alt="site logo" class="light-logo">
+            <img src="{{ asset('assets/images/logo-light.png') }}" alt="site logo" class="dark-logo">
+            <img src="{{ asset('assets/images/logo-icon.png') }}" alt="site logo" class="logo-icon">
         </a>
     </div>
     <div class="sidebar-menu-area">
         <ul class="sidebar-menu" id="sidebar-menu">
             <li>
-                <a href="javascript:void(0)">
+                <a href="{{ route('admin.dashboard_admin') }}">
                     <iconify-icon icon="solar:home-smile-angle-outline" class="menu-icon"></iconify-icon>
                     <span>Dashboard</span>
                 </a>
             </li>
+            @livewire('user-account-badge')
             <li class="dropdown">
                 <a href="javascript:void(0)">
-                    <iconify-icon icon="flowbite:users-group-outline" class="menu-icon"></iconify-icon>
-                    <span>Akun Pengguna</span>
+                    <i class="ri-news-line text-xl me-14 d-flex w-auto"></i>
+                    <span>Informasi</span>
                 </a>
                 <ul class="sidebar-submenu">
                     <li>
-                        <a href="{{ route('admin.account_verify_admin') }}"><i
+                        <a href="{{ route('admin.information.create_information') }}"><i
+                                class="ri-circle-fill circle-icon text-success-main w-auto"></i>
+                            Tambah Informasi</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.information.list_information') }}"><i
                                 class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
-                            Daftar Verifikasi Akun</a>
+                            Daftar Informasi</a>
                     </li>
-                    {{-- <li>
-                        <a href="users-grid.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
-                            Users Grid</a>
-                    </li>
-                    <li>
-                        <a href="add-user.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Add
-                            User</a>
-                    </li>
-                    <li>
-                        <a href="view-profile.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i>
-                            View Profile</a>
-                    </li>
-                    <li>
-                        <a href="users-role-permission.html"><i
-                                class="ri-circle-fill circle-icon text-info-main w-auto"></i> User Role &
-                            Permission</a>
-                    </li> --}}
                 </ul>
             </li>
             <li class="sidebar-menu-group-title">Application</li>

@@ -48,9 +48,9 @@
                             <div class="sign-in__form-input-box input-register-form">
                                 <input type="email" placeholder="Email" id="email" data-label="Email" name="email"
                                     autocomplete="username">
-                                <span class="error-text text-danger"></span>
+                                <div class="error-text text-danger"></div>
                                 @error('email')
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <div class="text-danger">{{ $message }}</div>
                                 @enderror
                                 <span class="text-muted" style="font-size: 14px"><i class="fas fa-circle-info"></i> Pastikan
                                     email yang Anda masukkan benar dan dapat diakses untuk menerima tautan
@@ -62,9 +62,9 @@
                             <div class="sign-in__form-input-box input-register-form">
                                 <input type="text" placeholder="No. Telepon (Whatsapp)" data-label="No. Telepon"
                                     id="phone" name="phone">
-                                <span class="error-text text-danger"></span>
+                                <div class="error-text text-danger"></div>
                                 @error('phone')
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <div class="text-danger">{{ $message }}</div>
                                 @enderror
                                 <span class="text-muted" style="font-size: 14px"><i class="fas fa-circle-info"></i> Pastikan
                                     nomor telepon yang Anda masukkan aktif agar dapat menerima notifikasi melalui
@@ -100,7 +100,7 @@
                             <div class="input-register-form">
                                 <div class="input-group mb-3">
                                     <input type="file" class="form-control" data-label="Foto KTP" id="foto_ktp"
-                                        name="foto_ktp" accept=".jpg,.jpeg,.png,.pdf">
+                                        name="foto_ktp" accept=".jpg,.jpeg,.png">
                                 </div>
                                 <span class="error-text text-danger"></span>
                                 @error('foto_ktp')
@@ -113,7 +113,7 @@
                             <div class="input-register-form">
                                 <div class="input-group mb-3">
                                     <input type="file" class="form-control" data-label="Selfi Dengan KTP"
-                                        id="foto_selfi_ktp" name="foto_selfi_ktp" accept=".jpg,.jpeg,.png,.pdf">
+                                        id="foto_selfi_ktp" name="foto_selfi_ktp" accept=".jpg,.jpeg,.png">
                                 </div>
                                 <span class="error-text text-danger"></span>
                                 @error('foto_selfi_ktp')
@@ -126,7 +126,7 @@
                             <div class="input-register-form">
                                 <div class="input-group mb-3 ">
                                     <input type="file" class="form-control" data-label="Foto KK" id="foto_kk"
-                                        name="foto_kk" accept=".jpg,.jpeg,.png,.pdf">
+                                        name="foto_kk" accept=".jpg,.jpeg,.png">
                                 </div>
                                 <span class="error-text text-danger"></span>
                                 @error('foto_kk')
