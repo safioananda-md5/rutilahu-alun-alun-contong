@@ -27,7 +27,9 @@ Route::get('/', function () {
 Route::get('/home', [DashboardController::class, 'index'])->name("home");
 
 // Login
-Route::get('/login', [LoginController::class, 'index'])->name("login");
+Route::get('/login', [LoginController::class, 'index'])->name("login")->middleware('redirect.role');
+Route::post('/login', [LoginController::class, 'login'])->name("login_post");
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Register
 Route::get('/register', [RegisterController::class, 'index'])->name("register");
@@ -36,19 +38,19 @@ Route::get('/email/verify/{id}/{hash}', [RegisterController::class, 'verifyEmail
 // Route::post('/email/verification-notification', [RegisterController::class, 'verivicationSend'])->name('verification.send');
 
 // Verivied Email ================-----------------------------
-Route::get('/email/verify', function () {
-    return view('auth.verify-email'); // halaman tunggu verifikasi
-})->middleware('auth')->name('verification.notice');
+// Route::get('/email/verify', function () {
+//     return view('auth.verify-email'); // halaman tunggu verifikasi
+// })->middleware('auth')->name('verification.notice');
 
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill(); // tandai email sudah verified
-    return redirect('/home')->with('status', 'Email berhasil diverifikasi!');
-})->middleware(['auth', 'signed'])->name('verification.verify');
+// Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+//     $request->fulfill(); // tandai email sudah verified
+//     return redirect('/home')->with('status', 'Email berhasil diverifikasi!');
+// })->middleware(['auth', 'signed'])->name('verification.verify');
 
-Route::post('/email/verification-notification', function (Request $request) {
-    $request->user()->sendEmailVerificationNotification();
-    return back()->with('status', 'Link verifikasi baru telah dikirim!');
-})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+// Route::post('/email/verification-notification', function (Request $request) {
+//     $request->user()->sendEmailVerificationNotification();
+//     return back()->with('status', 'Link verifikasi baru telah dikirim!');
+// })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 // User Page ===============---------------------------------
 // Information
@@ -56,13 +58,14 @@ Route::get('/informasi', [InformationController::class, 'index'])->name("informa
 Route::get('/informasi-detail/{id}', [InformationController::class, 'detail'])->name("information_detail");
 
 // Submission
-Route::get('/pengajuan', [SubmissionController::class, 'index'])->name("pengajuan");
-Route::get('/formulir-pengajuan', [SubmissionController::class, 'create'])->name("formulir_pengajuan");
+Route::get('/pengajuan', [SubmissionController::class, 'index'])->name("pengajuan")->middleware('checkRole:user');
+Route::get('/formulir-pengajuan', [SubmissionController::class, 'create'])->name("formulir_pengajuan")->middleware('checkRole:user');
+Route::post('/formulir-pengajuan', [SubmissionController::class, 'store'])->name("store_formulir_pengajuan")->middleware('checkRole:user');
 // User Page ===============---------------------------------
 
 // Admin Page ===============---------------------------------
 
-Route::group(['prefix' => '/admin', 'as' => 'admin.'], function () {
+Route::group(['prefix' => '/admin', 'as' => 'admin.', 'middleware' => 'checkRole:admin99'], function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name("dashboard_admin");
     Route::group(['prefix' => '/verifikasi', 'as' => 'verification.'], function () {
         Route::get('/daftar-verifikasi-akun', [AdminController::class, 'account_verify'])->name("account_verify_admin");

@@ -7,12 +7,13 @@
                 <div class="col-xl-6 col-lg-6">
                     <div class="sign-in__single text-center">
                         <h3 class="sign-in__title">Masuk</h3>
-                        <form class="sign-in__form">
+                        <form action="{{ route('login') }}" class="sign-in__form" method="POST" novalidate>
+                            @csrf
                             <div class="sign-in__form-input-box">
-                                <input type="email" placeholder="Username or Email address*">
+                                <input type="email" name="email" placeholder="Username or Email address*">
                             </div>
                             <div class="sign-in__form-input-box">
-                                <input type="password" placeholder="Password*">
+                                <input type="password" name="password" placeholder="Password*">
                             </div>
                             <div class="sign-in__form-btn-box mb-3">
                                 <button type="submit" class="thm-btn sign-in__form-btn">Login</button>

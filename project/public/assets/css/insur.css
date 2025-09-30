@@ -88,22 +88,22 @@ a:visited {
 
 ::-webkit-input-placeholder {
     color: inherit;
-    opacity: 1;
+    opacity: 0.5;
 }
 
 :-ms-input-placeholder {
     color: inherit;
-    opacity: 1;
+    opacity: 0.5;
 }
 
 ::-ms-input-placeholder {
     color: inherit;
-    opacity: 1;
+    opacity: 0.5;
 }
 
 ::placeholder {
     color: inherit;
-    opacity: 1;
+    opacity: 0.5;
 }
 
 h1,
@@ -133,22 +133,22 @@ ul {
 
 ::-webkit-input-placeholder {
     color: inherit;
-    opacity: 1;
+    opacity: 0.5;
 }
 
 :-ms-input-placeholder {
     color: inherit;
-    opacity: 1;
+    opacity: 0.5;
 }
 
 ::-ms-input-placeholder {
     color: inherit;
-    opacity: 1;
+    opacity: 0.5;
 }
 
 ::placeholder {
     color: inherit;
-    opacity: 1;
+    opacity: 0.5;
 }
 
 .page-wrapper {
@@ -171,22 +171,22 @@ ul {
 }
 ::-webkit-input-placeholder {
     color: inherit;
-    opacity: 1;
+    opacity: 0.5;
 }
 
 :-ms-input-placeholder {
     color: inherit;
-    opacity: 1;
+    opacity: 0.5;
 }
 
 ::-ms-input-placeholder {
     color: inherit;
-    opacity: 1;
+    opacity: 0.5;
 }
 
 ::placeholder {
     color: inherit;
-    opacity: 1;
+    opacity: 0.5;
 }
 
 .section-separator {
@@ -375,6 +375,46 @@ ul {
     letter-spacing: var(--insur-letter-spacing);
 }
 
+.select2-container .select2-dropdown {
+    background-color: var(--insur-black); /* abu-abu */
+    color: var(--insur-extra);
+    border: none !important; /* hilangkan border */
+    padding: 5px 0;
+}
+.select2-container .select2-results__option--selected {
+    background-color: var(--insur-extra) !important; /* abu-abu lebih pekat */
+    color: var(--insur-black) !important;
+}
+
+.select2-container .select2-search--dropdown .select2-search__field {
+    border: none !important; /* hilangkan border */
+    border-radius: 5px;
+    background-color: var(--insur-extra);
+    color: var(--insur-gray);
+    font-size: 12px;
+}
+
+/* Style dropdown scrollbar */
+.minimal-scrollbar .select2-results__options {
+    max-height: 120px; /* tinggi dropdown */
+    overflow-y: auto;
+}
+
+/* Webkit custom scrollbar */
+.minimal-scrollbar .select2-results__options::-webkit-scrollbar {
+    width: 6px;
+}
+
+.minimal-scrollbar .select2-results__options::-webkit-scrollbar-thumb {
+    background-color: var(--insur-extra);
+    border-radius: 3px;
+}
+
+/* Firefox scrollbar */
+.minimal-scrollbar .select2-results__options {
+    scrollbar-width: thin;
+    scrollbar-color: var(--insur-extra) transparent;
+}
 /*--------------------------------------------------------------
 # Custom Cursor
 --------------------------------------------------------------*/
@@ -899,7 +939,7 @@ ul {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--insur-primary);
+    color: var(--insur-base);
     font-size: 20px;
     -webkit-transition: all 500ms ease;
     transition: all 500ms ease;
@@ -937,8 +977,7 @@ ul {
     color: var(--insur-black);
     letter-spacing: var(--insur-letter-spacing);
     line-height: 16px;
-
-    max-width: 130px;
+    max-width: 150px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -12985,7 +13024,7 @@ body.boxed-wrapper {
 
 .shop-search form ::placeholder {
     color: inherit;
-    opacity: 1;
+    opacity: 0.5;
 }
 
 .product__price-ranger {
@@ -13874,7 +13913,7 @@ body.boxed-wrapper {
 
 .cart-cupon__form ::placeholder {
     color: var(--insur-gray);
-    opacity: 1;
+    opacity: 0.5;
 }
 
 .cart-cupon__form button {

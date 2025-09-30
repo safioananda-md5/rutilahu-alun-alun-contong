@@ -16,12 +16,12 @@
 <script src="{{ asset('assets/vendors/countdown/countdown.min.js') }}"></script>
 <script src="{{ asset('assets/vendors/owl-carousel/owl.carousel.min.js') }}"></script>
 <script src="{{ asset('assets/vendors/bxslider/jquery.bxslider.min.js') }}"></script>
-<script src="{{ asset('assets/vendors/bootstrap-select/js/bootstrap-select.min.js') }}"></script>
+{{-- <script src="{{ asset('assets/vendors/bootstrap-select/js/bootstrap-select.min.js') }}"></script> --}}
 <script src="{{ asset('assets/vendors/vegas/vegas.min.js') }}"></script>
 <script src="{{ asset('assets/vendors/jquery-ui/jquery-ui.js') }}"></script>
 <script src="{{ asset('assets/vendors/timepicker/timePicker.js') }}"></script>
 <script src="{{ asset('assets/vendors/circleType/jquery.circleType.js') }}"></script>
 <script src="{{ asset('assets/vendors/circleType/jquery.lettering.min.js') }}"></script>
 <script src="{{ asset('assets/vendors/ion.rangeSlider/js/ion.rangeSlider.min.js') }}"></script>
-<script src="{{ asset('assets/vendors/nice-select2/nice-select2.min.js') }}"></script>
+{{-- <script src="{{ asset('assets/vendors/nice-select2/nice-select2.min.js') }}"></script> --}}
 <script src="{{ asset('assets/js/insur.js') }}"></script>

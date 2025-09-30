@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Throwable;
 use App\Models\User;
-use Flasher\Laravel\Facade\Flasher;
+use App\Helpers\ApiHelper;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Flasher\Laravel\Facade\Flasher;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
@@ -85,21 +86,24 @@ class RegisterController extends Controller
 
             DB::beginTransaction();
 
+            $provinceCode = Str::substr($request->no_kk, 0, 2);
+            $regencyId = Str::substr($request->no_kk, 0, 2) . "." . Str::substr($request->no_kk, 2, 2);
+
             $user = User::create([
                 'name' => strtoupper($request->full_name),
                 'email' => $request->email,
                 'password' => Hash::make($request->input('password')),
                 'nik' => $request->nik,
                 'no_kk' => $request->no_kk,
+                'regency' =>  ApiHelper::getRegencyName($provinceCode, $regencyId),
                 'phone' => $request->phone,
                 'phone_verified_at' => null,
                 'pic_nik' => "none",
                 'pic_selfie_nik' => "none",
                 'pic_no_kk' => "none",
                 'system_verified_status' => 'unverified',
+                'role' => 'user',
             ]);
-
-            DB::commit();
 
             if ($request->hasFile('foto_ktp')) {
                 $fotoktp = $request->file('foto_ktp');
@@ -129,7 +133,7 @@ class RegisterController extends Controller
                     'pic_no_kk' => $filename_fotokk,
                 ]);
             }
-
+            DB::commit();
             // Kirim email verifikasi
             // $user->sendEmailVerificationNotification();
             Flasher::addSuccess('Akun berhasil diajukan, silahkan menunggu proses verifikasi kurang lebih 7 (tujuh) hari kerja.');
@@ -142,7 +146,7 @@ class RegisterController extends Controller
 
             return response()->json([
                 'status' => 0,
-                'message' => implode('<br>', $allErrors),
+                'message' => implode(' | ', $allErrors),
             ], 422);
         } catch (Throwable $e) {
             DB::rollback();

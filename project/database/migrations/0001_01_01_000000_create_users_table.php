@@ -19,12 +19,15 @@ return new class extends Migration
             $table->string('password');
             $table->string('nik')->unique();
             $table->string('no_kk');
+            $table->string('regency');
             $table->string('phone')->unique();
             $table->timestamp('phone_verified_at')->nullable();
             $table->string('pic_nik');
             $table->string('pic_selfie_nik');
             $table->string('pic_no_kk');
             $table->string('system_verified_status');
+            $table->string('poor_family_status');
+            $table->string('role');
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();

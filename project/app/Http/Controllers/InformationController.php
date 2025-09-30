@@ -19,16 +19,16 @@ class InformationController extends Controller
 {
     private function generateUniqueSlug($title)
     {
-        $slug = Str::slug($title, '%');
+        $slug = Str::slug($title, '-');
 
         $randomCode = Str::lower(Str::random(5));
-        $slug = $slug . '%' . $randomCode;
+        $slug = $slug . '-' . $randomCode;
 
         $originalSlug = $slug;
         $count = 1;
 
         while (Information::where('slug', $slug)->exists()) {
-            $slug = $originalSlug . '%' . $count;
+            $slug = $originalSlug . '-' . $count;
             $count++;
         }
 
@@ -82,6 +82,7 @@ class InformationController extends Controller
         }
 
         return view('page.information.detail', compact('informasi', 'files'));
+        // return view('page.information.detail', compact('informasi'));
     }
 
     public function list_information()
@@ -104,7 +105,9 @@ class InformationController extends Controller
 
     public function create_information()
     {
-        return view('page.admin.create_information');
+        $id = null;
+        $udd = null;
+        return view('page.admin.create_information', compact('id', 'udd'));
     }
 
     public function edit_information($id)
@@ -174,7 +177,6 @@ class InformationController extends Controller
             ]);
 
             DB::beginTransaction();
-            DB::commit();
 
             $information = Information::create([
                 'title' => Str::title($request->judulInformasi),
@@ -212,9 +214,12 @@ class InformationController extends Controller
                 throw new \Exception("Foto Foto Depan Kecil dan Foto Dalam Besar wajib diupload!");
             }
 
+            DB::commit();
+
             Flasher::addSuccess('Informasi baru berhasil ditambahkan.');
             return response()->json(['status' => 1, 'message' => '',  'redirect' => route('admin.information.list_information')], 200);
         } catch (ValidationException $e) {
+            DB::rollback();
             $allErrors = [];
             foreach ($e->errors() as $field => $msgs) {
                 $allErrors = array_merge($allErrors, $msgs);
@@ -251,7 +256,6 @@ class InformationController extends Controller
                 ->where('filename', $type_DC)
                 ->firstOrFail();
 
-            DB::commit();
             if ($attachment1) {
                 // Storage::disk('public')->delete('informasi_lampiran/' . $attachment->filename);
                 $attachment1->delete();
@@ -272,6 +276,7 @@ class InformationController extends Controller
                 $information = Information::where('id', $enc_DC)->firstOrFail();
                 $information->touch();
             }
+            DB::commit();
         } catch (Throwable $e) {
             DB::rollback();
             return response()->json(['status' => 0, 'message' => $e->getMessage()], 442);
@@ -285,15 +290,15 @@ class InformationController extends Controller
             DB::beginTransaction();
             $enc_DC = Crypt::decrypt($request->enc);
             $type_DC = Crypt::decrypt($request->type);
-            DB::commit();
+
             $information = Information::findOrFail($enc_DC);
             $information->attachment()->delete();
             $information->delete();
+            DB::commit();
         } catch (Throwable $e) {
             DB::rollback();
             return response()->json(['status' => 0, 'message' => $e->getMessage()], 442);
         }
-
 
         Flasher::addSuccess('Informasi berhasil dihapus.');
         return response()->json(['status' => 1, 'redirect' => route('admin.information.list_information')], 200);
@@ -332,7 +337,7 @@ class InformationController extends Controller
 
             $information = Information::where('id', $id_DC)->firstOrFail();
 
-            DB::commit();
+
 
             if ($request->judulInformasi === $information->title) {
                 $information->update([
@@ -381,6 +386,7 @@ class InformationController extends Controller
                 }
             }
 
+            DB::commit();
             Flasher::addSuccess('Informasi berhasil diperbarui.');
             return response()->json(['status' => 1, 'message' => '',  'redirect' => route('admin.information.list_information')], 200);
         } catch (ValidationException $e) {

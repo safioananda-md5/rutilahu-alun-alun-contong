@@ -18,9 +18,17 @@
                                     <li>
                                         <a href="{{ route('information') }}">Informasi </a>
                                     </li>
-                                    <li>
-                                        <a href="{{ route('pengajuan') }}">Pengajuan </a>
-                                    </li>
+                                    @if (Auth::check())
+                                        @if (Auth::user()->role !== 'admin99')
+                                            <li>
+                                                <a href="{{ route('pengajuan') }}">Pengajuan</a>
+                                            </li>
+                                        @endif
+                                    @else
+                                        <li>
+                                            <a href="{{ route('pengajuan') }}">Pengajuan</a>
+                                        </li>
+                                    @endif
                                 </ul>
                             </div>
                             <div class="main-menu__main-menu-box-search-get-quote-btn">
@@ -31,20 +39,38 @@
                         </div>
                     </div>
                     <div class="main-menu__right">
-                        <div class="main-menu__call">
-                            <div class="dropdown">
-                                <div class="main-menu__call-icon" data-bs-toggle="dropdown" aria-expanded="false"
-                                    role="button" tabindex="0">
+                        <div class="dropdown">
+                            <div class="main-menu__call" data-bs-toggle="dropdown" aria-expanded="false" role="button"
+                                tabindex="0">
+                                <div class="main-menu__call-icon">
                                     <i class="fas fa-user"></i>
                                 </div>
-                                <ul class="dropdown-menu mt-3">
+                                <div class="main-menu__call-content">
+                                    @if (Auth::check())
+                                        <p>{{ Auth::user()->name }}</p>
+                                    @else
+                                        <p>Silahkan Login!</p>
+                                    @endif
+                                </div>
+                            </div>
+                            <ul class="dropdown-menu mt-3">
+                                @if (Auth::check() && Auth::user()->role !== 'admin99')
                                     <li><a class="dropdown-item" href="#">Profil</a></li>
-                                    <li><a class="dropdown-item" href="#">Logout</a></li>
-                                </ul>
-                            </div>
-                            <div class="main-menu__call-content">
-                                <p>Kharisma Safio Ananda</p>
-                            </div>
+                                @endif
+                                @if (Auth::check())
+                                    <li>
+                                        <form action="{{ route('logout') }}" method="POST">
+                                            @csrf
+                                            <button class="dropdown-item" type="submit">Log Out</button>
+                                        </form>
+                                    </li>
+                                @else
+                                    <li>
+                                        <a href="{{ route('login') }}" class="dropdown-item">Login</a>
+                                    </li>
+                                @endif
+
+                            </ul>
                         </div>
                     </div>
                 </div>

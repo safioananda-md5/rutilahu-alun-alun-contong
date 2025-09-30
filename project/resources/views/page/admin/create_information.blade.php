@@ -62,9 +62,11 @@
                         diisi
                         atau dipilih.</i></small>
             </div>
-            <div>
-                <button class="btn btn-sm btn-danger" id="HapusInformasi">Hapus Informasi</button>
-            </div>
+            @if (isset($edit) && $edit)
+                <div>
+                    <button class="btn btn-sm btn-danger" id="HapusInformasi">Hapus Informasi</button>
+                </div>
+            @endif
         </div>
         @if (isset($edit) && $edit)
             <form action="{{ route('admin.information.update_information', Crypt::encrypt($informasi->id)) }}"

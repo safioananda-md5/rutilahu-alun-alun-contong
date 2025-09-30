@@ -4,6 +4,13 @@
 
 <head>
     <title>@yield('title', 'ADMIN | Rutilahu Alun-Alun Contong Kota Surabaya')</title>
+    <style>
+        .custom-hover:hover {
+            background-color: #e9ecef;
+            cursor: pointer;
+            border-radius: 5px
+        }
+    </style>
     @include('layouts.head_admin')
 </head>
 

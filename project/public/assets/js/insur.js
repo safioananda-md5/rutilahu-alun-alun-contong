@@ -1117,10 +1117,6 @@
         });
     }
 
-    if ($("select.nice-select").length) {
-        $("select.nice-select").niceSelect();
-    }
-
     /*-- 19-02-2024 (Mosharof)--*/
 
     //Strech Column
@@ -1167,5 +1163,4 @@
     var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
         return new bootstrap.Popover(popoverTriggerEl);
     });
-    
 })(jQuery);

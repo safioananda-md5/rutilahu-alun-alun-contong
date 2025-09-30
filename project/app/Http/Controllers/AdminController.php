@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Throwable;
 use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Flasher\Laravel\Facade\Flasher;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class AdminController extends Controller
 {
@@ -45,13 +48,28 @@ class AdminController extends Controller
     {
         $DC_id = Crypt::decrypt($id);
 
-        $user_data = User::where('id', $DC_id)->first();
+        $user_data = User::where('id', $DC_id)->where('system_verified_status', 'unvirified')->firstOrFail();
 
         if (!$user_data) {
             Flasher::addError('Detail akun tidak ditemukan!');
             return redirect()->route('admin.verification.account_verify_admin');
         }
-        return view('page.admin.account_verify_detail', compact(['user_data']));
+
+        $StatusGamis = [
+            [
+                'name' => 'Keluarga Miskin (Gamis)',
+                'value' => 'gamis'
+            ],
+            [
+                'name' => 'Keluarga Pra Miskin (Pramis)',
+                'value' => 'pramis'
+            ],
+            [
+                'name' => 'Non Keluarga Miskin (Non-Gamis)',
+                'value' => 'non-gamis'
+            ]
+        ];
+        return view('page.admin.account_verify_detail', compact(['user_data', 'StatusGamis']));
     }
 
     public function showKTP($id)
@@ -104,24 +122,40 @@ class AdminController extends Controller
 
     public function store(Request $request, $id)
     {
-        $DC_id = Crypt::decrypt($id);
-        $user_data = User::where('id', $DC_id)->first();
-        $action = Crypt::decrypt($request->action);
+        $id_DC = Crypt::decrypt($id);
+        $status = "";
+        $request->validate(
+            [
+                'status_gamis' => 'required',
+                'verification' => 'required',
+            ],
+            [
+                'status_gamis.required' => 'Status Keluarga Miskin wajib dipilih!',
+                'verification.required' => 'Verifikasi Wajib dipilih!',
+            ]
+        );
 
-        if ($action === 'tolak') {
-            $user_data->system_verified_status = 'unverified';
-            $user_data->nik = $user_data->nik . '-del-' . (string) Str::uuid();
-            $user_data->email = $user_data->email . '-del-' . (string) Str::uuid();
-            $user_data->phone = $user_data->phone . '-del-' . (string) Str::uuid();
-            $user_data->save();
-            $user_data->delete();
-            Flasher::addSuccess('Akun berhasil di verifikasi dengan status:DITOLAK');
-        } elseif ($action === 'setujui') {
-            $user_data->system_verified_status = 'verified';
-            $user_data->save();
-            Flasher::addSuccess('Akun berhasil di verifikasi dengan status:DISETUJUI');
+        try {
+            $user = User::where('id', $id_DC)->firstOrFail();
+            DB::beginTransaction();
+            if ($request->verification === 'yes') {
+                $user->update([
+                    'system_verified_status' => 'verified',
+                    'poor_family_status' => $request->status_gamis,
+                ]);
+                $status = "DISETUJUI";
+            } else {
+                $user->delete();
+                $status = "DITOLAK";
+            }
+
+            DB::commit();
+            Flasher::addSuccess('Akun berhasil di verifikasi dengan status:' . $status);
+            return redirect()->route('admin.verification.account_verify_admin');
+        } catch (Throwable $e) {
+            DB::rollBack();
+            Flasher::addSuccess('Terdapat errot: ' . $e->getMessage());
+            return back();
         }
-
-        return redirect()->route('admin.verification.account_verify_admin');
     }
 }
