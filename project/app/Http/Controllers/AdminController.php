@@ -48,7 +48,7 @@ class AdminController extends Controller
     {
         $DC_id = Crypt::decrypt($id);
 
-        $user_data = User::where('id', $DC_id)->where('system_verified_status', 'unvirified')->firstOrFail();
+        $user_data = User::where('id', $DC_id)->where('system_verified_status', 'unverified')->firstOrFail();
 
         if (!$user_data) {
             Flasher::addError('Detail akun tidak ditemukan!');

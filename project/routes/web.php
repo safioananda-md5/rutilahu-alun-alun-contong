@@ -7,6 +7,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\WilayahController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DataController;
 use App\Http\Controllers\SubmissionController;
 use App\Http\Controllers\InformationController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -60,7 +61,8 @@ Route::get('/informasi-detail/{id}', [InformationController::class, 'detail'])->
 // Submission
 Route::get('/pengajuan', [SubmissionController::class, 'index'])->name("pengajuan")->middleware('checkRole:user');
 Route::get('/formulir-pengajuan', [SubmissionController::class, 'create'])->name("formulir_pengajuan")->middleware('checkRole:user');
-Route::post('/formulir-pengajuan', [SubmissionController::class, 'store'])->name("store_formulir_pengajuan")->middleware('checkRole:user');
+Route::post('/formulir-pengajuan/{id}', [SubmissionController::class, 'store'])->name("store_formulir_pengajuan")->middleware('checkRole:user');
+Route::get('/formulir-detail', [SubmissionController::class, 'detail'])->name("formulir_detail")->middleware('auth');
 // User Page ===============---------------------------------
 
 // Admin Page ===============---------------------------------
@@ -88,6 +90,10 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.', 'middleware' => 'checkRole
 });
 
 
+Route::group(['prefix' => '/20251001-5G7K', 'as' => 'data.', 'middleware' => 'auth'], function () {
+    Route::post('/20251001-9L2Q/{name}/{id}', [DataController::class, 'nik'])->name("nik_data");
+    Route::post('/20251001-2H6M/{name}/{id}', [DataController::class, 'kk'])->name("kk_data");
+});
 
 // Admin Page ===============---------------------------------
 

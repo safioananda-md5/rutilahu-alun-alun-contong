@@ -1,216 +1,482 @@
-@extends('layouts.admin')
+@extends('layouts.master')
 
 @section('content')
-    <div class="card">
-        <div class="card-header">
-            <div class="d-flex flex-wrap align-items-center justify-content-end gap-2">
-                <a href="javascript:void(0)"
-                    class="btn btn-sm btn-primary-600 radius-8 d-inline-flex align-items-center gap-1">
-                    <iconify-icon icon="pepicons-pencil:paper-plane" class="text-xl"></iconify-icon>
-                    Send Invoice
-                </a>
-                <a href="javascript:void(0)" class="btn btn-sm btn-warning radius-8 d-inline-flex align-items-center gap-1">
-                    <iconify-icon icon="solar:download-linear" class="text-xl"></iconify-icon>
-                    Download
-                </a>
-                <a href="javascript:void(0)" class="btn btn-sm btn-success radius-8 d-inline-flex align-items-center gap-1">
-                    <iconify-icon icon="uil:edit" class="text-xl"></iconify-icon>
-                    Edit
-                </a>
-                <button type="button" class="btn btn-sm btn-danger radius-8 d-inline-flex align-items-center gap-1"
-                    onclick="printInvoice()">
-                    <iconify-icon icon="basil:printer-outline" class="text-xl"></iconify-icon>
-                    Print
-                </button>
-            </div>
-        </div>
-        <div class="card-body py-40">
-            <div class="row justify-content-center" id="invoice">
-                <div class="col-lg-12">
-                    <div>
-                        <div class="p-20 d-flex flex-wrap justify-content-between gap-3 border-bottom">
-                            <div>
-                                <h3 class="text-xl">Invoice #3492</h3>
-                                <p class="mb-1 text-sm">Date Issued: 25/08/2020</p>
-                                <p class="mb-0 text-sm">Date Due: 29/08/2020</p>
+    <section class="checkout-page mt-5">
+        <div class="container">
+            <h2 class="mb-1">Detail Pengajuan Anda</h2>
+            <h5 class="mt-4">Alur Pengajuan</h5>
+            <div class="table-responsive mt-3">
+                <div id="stepper" class="bs-stepper">
+                    <div class="bs-stepper-header" role="tablist">
+                        @if ($submissions->status === 1)
+                            <div class="step">
+                                <button type="button" class="step-trigger" role="tab" disabled>
+                                    <span class="bs-stepper-circle bg-danger">1</span>
+                                    <span class="bs-stepper-label text-danger">Dibatalkan</span>
+                                </button>
                             </div>
-                            <div>
-                                <img src="assets/images/logo.png" alt="image" class="mb-8">
-                                <p class="mb-1 text-sm">4517 Washington Ave. Manchester, Kentucky 39495</p>
-                                <p class="mb-0 text-sm">random@gmail.com, +1 543 2198</p>
+                        @endif
+                        @if ($submissions->status === 2)
+                            <div class="step">
+                                <button type="button" class="step-trigger" role="tab" disabled>
+                                    <span class="bs-stepper-circle bg-warning">1</span>
+                                    <span class="bs-stepper-label text-warning">Menunggu Verifikasi RT</span>
+                                </button>
                             </div>
+                            <div class="line"></div>
+                        @elseif($submissions->status > 2 && $submissions->status !== 3)
+                            <div class="step active">
+                                <button type="button" class="step-trigger" role="tab" disabled>
+                                    <span class="bs-stepper-circle">1</span>
+                                    <span class="bs-stepper-label">Verifikasi RT</span>
+                                </button>
+                            </div>
+                            <div class="line"></div>
+                        @else
+                            <div class="step">
+                                <button type="button" class="step-trigger" role="tab" disabled>
+                                    <span class="bs-stepper-circle bg-danger">1</span>
+                                    <span class="bs-stepper-label text-danger">Ditolak RT</span>
+                                </button>
+                            </div>
+                        @endif
+                        @if ($submissions->status === 4)
+                            <div class="step">
+                                <button type="button" class="step-trigger" role="tab" disabled>
+                                    <span class="bs-stepper-circle bg-warning">2</span>
+                                    <span class="bs-stepper-label text-warning">Menunggu Verifikasi RW</span>
+                                </button>
+                            </div>
+                            <div class="line"></div>
+                        @elseif($submissions->status > 4 && $submissions->status !== 5)
+                            <div class="step active">
+                                <button type="button" class="step-trigger" role="tab" disabled>
+                                    <span class="bs-stepper-circle">2</span>
+                                    <span class="bs-stepper-label">Verifikasi RW</span>
+                                </button>
+                            </div>
+                            <div class="line"></div>
+                        @elseif($submissions->status === 5)
+                            <div class="step">
+                                <button type="button" class="step-trigger" role="tab" disabled>
+                                    <span class="bs-stepper-circle bg-danger">2</span>
+                                    <span class="bs-stepper-label text-danger">Ditolak RW</span>
+                                </button>
+                            </div>
+                        @endif
+                        @if ($submissions->status === 6)
+                            <div class="step">
+                                <button type="button" class="step-trigger" role="tab" disabled>
+                                    <span class="bs-stepper-circle bg-warning">3</span>
+                                    <span class="bs-stepper-label text-warning">Menunggu Verifikasi Kelurahan</span>
+                                </button>
+                            </div>
+                            <div class="line"></div>
+                        @elseif($submissions->status > 6 && $submissions->status !== 7)
+                            <div class="step active">
+                                <button type="button" class="step-trigger" role="tab" disabled>
+                                    <span class="bs-stepper-circle">3</span>
+                                    <span class="bs-stepper-label">Verifikasi Kelurahan</span>
+                                </button>
+                            </div>
+                            <div class="line"></div>
+                        @elseif($submissions->status === 7)
+                            <div class="step">
+                                <button type="button" class="step-trigger" role="tab" disabled>
+                                    <span class="bs-stepper-circle bg-danger">3</span>
+                                    <span class="bs-stepper-label text-danger">Ditolak Kelurahan</span>
+                                </button>
+                            </div>
+                        @endif
+                        @if ($submissions->status >= 8)
+                            <div class="step active">
+                                <button type="button" class="step-trigger" role="tab" disabled>
+                                    <span class="bs-stepper-circle">4</span>
+                                    <span class="bs-stepper-label">Disetujui (Calon Penerima)</span>
+                                </button>
+                            </div>
+                            <div class="line"></div>
+                        @endif
+                        @if ($submissions->status === 9)
+                            <div class="step">
+                                <button type="button" class="step-trigger" role="tab"disabled>
+                                    <span class="bs-stepper-circle bg-success">5</span>
+                                    <span class="bs-stepper-label text-success">Penerima Bantuan Rutilahu</span>
+                                </button>
+                            </div>
+                        @endif
+                        {{-- <div class="step active" data-target="#step-rt">
+                            <button type="button" class="step-trigger" role="tab" id="trigger-rt" disabled>
+                                <span class="bs-stepper-circle">1</span>
+                                <span class="bs-stepper-label">Verifikasi RT</span>
+                            </button>
                         </div>
-                        <div class="py-28 px-20">
-                            <div class="d-flex flex-wrap justify-content-between align-items-end gap-3">
-                                <div>
-                                    <h6 class="text-md">Issus For:</h6>
-                                    <table class="text-sm text-secondary-light">
-                                        <tbody>
-                                            <tr>
-                                                <td>Name</td>
-                                                <td class="ps-8">:Will Marthas</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Address</td>
-                                                <td class="ps-8">:4517 Washington Ave.USA</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Phone number</td>
-                                                <td class="ps-8">:+1 543 2198</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div>
-                                    <table class="text-sm text-secondary-light">
-                                        <tbody>
-                                            <tr>
-                                                <td>Issus Date</td>
-                                                <td class="ps-8">:25 Jan 2024</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Order ID</td>
-                                                <td class="ps-8">:#653214</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Shipment ID</td>
-                                                <td class="ps-8">:#965215</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <div class="mt-24">
-                                <div class="table-responsive scroll-sm">
-                                    <table class="table bordered-table text-sm">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" class="text-sm">SL.</th>
-                                                <th scope="col" class="text-sm">Items</th>
-                                                <th scope="col" class="text-sm">Qty</th>
-                                                <th scope="col" class="text-sm">Units</th>
-                                                <th scope="col" class="text-sm">Unit Price</th>
-                                                <th scope="col" class="text-end text-sm">Price</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>01</td>
-                                                <td>Apple's Shoes</td>
-                                                <td>5</td>
-                                                <td>PC</td>
-                                                <td>$200</td>
-                                                <td class="text-end">$1000.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>02</td>
-                                                <td>Apple's Shoes</td>
-                                                <td>5</td>
-                                                <td>PC</td>
-                                                <td>$200</td>
-                                                <td class="text-end">$1000.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>03</td>
-                                                <td>Apple's Shoes</td>
-                                                <td>5</td>
-                                                <td>PC</td>
-                                                <td>$200</td>
-                                                <td class="text-end">$1000.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>04</td>
-                                                <td>Apple's Shoes</td>
-                                                <td>5</td>
-                                                <td>PC</td>
-                                                <td>$200</td>
-                                                <td class="text-end">$1000.00</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="row gy-4 mb-3 border-top mt-3">
-                                    <h6 class="text-md">Foto Bukti Survey</h6>
-                                    <div class="col-xxl-3 col-md-4 col-sm-6">
-                                        <a href="assets/images/gallery/gallery-img1.png"
-                                            class="popup-img w-100 h-100 d-flex overflow-hidden" target="_blank">
-                                            <img src="assets/images/gallery/gallery-img1.png" alt=""
-                                                class="hover-scale-img__img w-100 h-100 object-fit-cover">
-                                        </a>
+                        <div class="line"></div>
+                        <div class="step active" data-target="#step-rw">
+                            <button type="button" class="step-trigger" role="tab" id="trigger-rw" disabled>
+                                <span class="bs-stepper-circle">2</span>
+                                <span class="bs-stepper-label">Verifikasi RW</span>
+                            </button>
+                        </div>
+                        <div class="line"></div>
+                        <div class="step" data-target="#step-kelurahan">
+                            <button type="button" class="step-trigger" role="tab" id="trigger-kelurahan" disabled>
+                                <span class="bs-stepper-circle">3</span>
+                                <span class="bs-stepper-label">Verifikasi Kelurahan</span>
+                            </button>
+                        </div>
+                        <div class="line"></div>
+                        <div class="step" data-target="#step-disetujui">
+                            <button type="button" class="step-trigger" role="tab" id="trigger-disetujui" disabled>
+                                <span class="bs-stepper-circle">4</span>
+                                <span class="bs-stepper-label">Calon Penerima</span>
+                            </button>
+                        </div> --}}
+                    </div>
+                </div>
+            </div>
+            <h5 class="mt-5">Data Diri</h5>
+            <hr>
+            <div class="row">
+                <div class="col-md-3 fw-bold">Nama Lengkap</div>
+                <div class="col-md-9">{{ Auth::user()->name }}</div>
+            </div>
+            <div class="row mt-3 mt-md-0">
+                <div class="col-md-3 fw-bold">NIK</div>
+                <div class="col-md-9 d-flex align-items-center">{{ substr(Auth::user()->nik, 0, 4) . str_repeat('*', 12) }}
+                    <span class="iconify open ms-3" style="cursor: pointer;" data-icon="mdi:eye" data-width="20"
+                        data-height="20"></span>
+                </div>
+            </div>
+            <div class="row mt-3 mt-md-0">
+                <div class="col-md-3 fw-bold">No. KK</div>
+                <div class="col-md-9">{{ substr(Auth::user()->no_kk, 0, 4) . str_repeat('*', 12) }}
+                    <span class="iconify open ms-3" style="cursor: pointer;" data-icon="mdi:eye" data-width="20"
+                        data-height="20"></span>
+                </div>
+            </div>
+            <div class="row mt-3 mt-md-0">
+                <div class="col-md-3 fw-bold">Alamat KK</div>
+                <div class="col-md-9">{{ Auth::user()->regency }}</div>
+            </div>
+            <div class="row mt-3 mt-md-0">
+                <div class="col-md-3 fw-bold">Status Keluarga Miskin</div>
+                <div class="col-md-9">
+                    @if (Auth::user()->poor_family_status === 'non-gamis')
+                        <span class="badge bg-danger">{{ Str::upper(Auth::user()->poor_family_status) }}</span>
+                    @else
+                        <span class="badge bg-success">{{ Str::upper(Auth::user()->poor_family_status) }}</span>
+                    @endif
+                </div>
+            </div>
+            <form action="{{ route('store_formulir_pengajuan', Crypt::encrypt(Auth::user()->id)) }}" method="POST"
+                class="billing_details_form" id="submissionForm" enctype="multipart/form-data" novalidate>
+                @csrf
+                <div class="your_order">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12">
+                            <div class="billing_details">
+                                <h5 class="mt-5">Alamat Domisili</h5>
+                                <hr>
+                                <div class="row d-flex align-items-end">
+                                    <div class="col-md-8">
+                                        <label for="address" class="mb-2 fw-bold">
+                                            Alamat Domisili
+                                        </label>
+                                        <div class="billing_input_box fs-5 ms-3">
+                                            <p>{{ $submissions->address }}, RT {{ $submissions->no_rt }}, RW
+                                                {{ $submissions->no_rw }}</p>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="d-flex flex-wrap justify-content-between gap-3">
-                                    <div>
-                                        <p class="text-sm mb-0"><span class="text-primary-light fw-semibold">Sales
-                                                By:</span> Jammal</p>
-                                        <p class="text-sm mb-0">Thanks for your business</p>
+                                @if (Auth::user()->poor_family_status === 'non-gamis')
+                                    <h5 class="mt-3">Data Sosial Ekonomi</h5>
+                                    <hr>
+                                    <div class="row mt-3">
+                                        <div class="col-md-4">
+                                            <label for="revenue" class="mb-2 fw-bold">
+                                                Jumlah Pendapatan
+                                                <span class="d-inline-block" tabindex="0" data-bs-toggle="popover"
+                                                    data-bs-trigger="hover focus"
+                                                    data-bs-content="Dihitung melalui penghasilan kepala keluarga.">
+                                                    <i class="fas fa-info-circle ms-2 text-primary"></i>
+                                                </span>
+                                            </label>
+                                            <div class="billing_input_box fs-5 ms-3">
+                                                <p>{{ 'Rp ' . number_format($submissions->revenue, 0, ',', '.') }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="asset" class="mb-2 fw-bold">
+                                                Jumlah Kepemilikan Asset
+                                                <span class="d-inline-block" tabindex="0" data-bs-toggle="popover"
+                                                    data-bs-trigger="hover focus"
+                                                    data-bs-content="Jumlah asset dinilai melalui total harga jual masing-masing asset seperti; tanah, kendaraan, alat usaha, peralatan elektronik, atau perhiasan.">
+                                                    <i class="fas fa-info-circle ms-2 text-primary"></i>
+                                                </span>
+                                            </label>
+                                            <div class="billing_input_box fs-5 ms-3">
+                                                <p>{{ 'Rp ' . number_format($submissions->asset, 0, ',', '.') }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="dependents" class="mb-2 fw-bold">
+                                                Jumlah Tanggungan Anggota Keluarga
+                                                <span class="d-inline-block" tabindex="0" data-bs-toggle="popover"
+                                                    data-bs-trigger="hover focus"
+                                                    data-bs-content="Tanggungan anggota keluarga mencakup anak-anak, lansia, atau anggota keluarga yang tidak bekerja dan bergantung hanya kepada kepala keluarga.">
+                                                    <i class="fas fa-info-circle ms-2 text-primary"></i>
+                                                </span>
+                                            </label>
+                                            <div class="billing_input_box fs-5 ms-3">
+                                                <p>{{ $submissions->dependents }} Orang</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <table class="text-sm">
-                                            <tbody>
-                                                <tr>
-                                                    <td class="pe-64">Subtotal:</td>
-                                                    <td class="pe-16">
-                                                        <span class="text-primary-light fw-semibold">$4000.00</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="pe-64">Discount:</td>
-                                                    <td class="pe-16">
-                                                        <span class="text-primary-light fw-semibold">$0.00</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="pe-64 border-bottom pb-4">Tax:</td>
-                                                    <td class="pe-16 border-bottom pb-4">
-                                                        <span class="text-primary-light fw-semibold">0.00</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="pe-64 pt-4">
-                                                        <span class="text-primary-light fw-semibold">Total:</span>
-                                                    </td>
-                                                    <td class="pe-16 pt-4">
-                                                        <span class="text-primary-light fw-semibold">$1690</span>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                @endif
+                                <h5 class="mt-3">Data Bangunan</h5>
+                                <hr>
+                                <div class="row mt-3">
+                                    <div class="col-md-4">
+                                        <label for="building_area" class="mb-2 fw-bold">
+                                            Luas Bangunan
+                                        </label>
+                                        <div class="billing_input_box fs-5 ms-3">
+                                            {{ $submissions->building_area }} m<sup>2</sup>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label for="building_legality" class="mb-2 fw-bold">
+                                            Legalitas Bangunan
+                                        </label>
+                                        <div class="billing_input_box fs-5 ms-3">
+                                            @foreach ($Legalitas as $LegalitasItem)
+                                                @if ($LegalitasItem['value'] === $submissions->building_legality)
+                                                    <p>{{ $LegalitasItem['name'] }}</p>
+                                                @endif
+                                            @endforeach
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="mt-64">
-                                <p class="text-center text-secondary-light text-sm fw-semibold">Thank you for your
-                                    purchase!
-                                </p>
-                            </div>
-
-                            <div class="d-flex flex-wrap justify-content-between align-items-end mt-64">
-                                <div class="text-sm border-top d-inline-block px-12">Signature of Customer</div>
-                                <div class="text-sm border-top d-inline-block px-12">Signature of Authorized</div>
+                                <div class="row mt-3">
+                                    <div class="col-md-4">
+                                        <label for="roof_condition" class="mb-2 fw-bold">
+                                            Kondisi Atap Bangunan
+                                            <span class="d-inline-block" tabindex="0" data-bs-toggle="popover"
+                                                data-bs-trigger="hover focus" data-bs-html="true"
+                                                data-bs-content="
+                                                <div>Rusak ringan: genteng bocor, pecah, genteng sebagian;</div>
+                                                <div style='margin-top:10px;'>Rusak sedang: rangka kayu lapuk / keropos, atap asbes / seng;</div>
+                                                <div style='margin-top:10px;'>Rusak berat: roboh, tidak memiliki atap.</div>
+                                            ">
+                                                <i class="fas fa-info-circle ms-2 text-primary"></i>
+                                            </span>
+                                        </label>
+                                        <div class="billing_input_box fs-5 ms-3">
+                                            @foreach ($Katap as $KatapItem)
+                                                @if ($KatapItem['value'] === $submissions->roof_condition)
+                                                    <p>{{ $KatapItem['name'] }}</p>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="wall_condition" class="mb-2 fw-bold">
+                                            Kondisi Dinding Bangunan
+                                        </label>
+                                        <div class="billing_input_box fs-5 ms-3">
+                                            @foreach ($Kdinding as $KdindingItem)
+                                                @if ($KdindingItem['value'] === $submissions->wall_condition)
+                                                    <p>{{ $KdindingItem['name'] }}</p>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="floor_condition" class="mb-2 fw-bold">
+                                            Kondisi Lantai Bangunan<span style="color: red;">*</span>
+                                            <span class="d-inline-block" tabindex="0" data-bs-toggle="popover"
+                                                data-bs-trigger="hover focus" data-bs-html="true"
+                                                data-bs-content="Lantai rendah adalah kondisi dimana lantai terlihat tidak rata/ bergelombang, berpotensi terendam banjir, dan berada dibawah ketinggian jalan.">
+                                                <i class="fas fa-info-circle ms-2 text-primary"></i>
+                                            </span>
+                                        </label>
+                                        <div class="billing_input_box fs-5 ms-3">
+                                            @foreach ($Klantai as $KlantaiItem)
+                                                @if ($KlantaiItem['value'] === $submissions->floor_condition)
+                                                    <p>{{ $KlantaiItem['name'] }}</p>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="mb-5">
+                                <h2 class="mb-5">Dokumen Terkait</h2>
+                                <div class="row mt-3">
+                                    <div class="col-md-12">
+                                        <div class="billing_input_box">
+                                            <label for="certificate_of_domicile" class="fw-bold">
+                                                Surat Keterangan Domisili yang diterbitkan oleh Kelurahan Alun-Alun
+                                                Contong
+                                            </label><br>
+                                            {!! $documents['certificate_of_domicile'] !!}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-12">
+                                        <div class="billing_input_box">
+                                            <label for="certificate_of_ownership" class="fw-bold">
+                                                Unggah Serfikat Hak Milik<span style="color: red;">*</span>
+                                            </label><br>
+                                            {!! $documents['certificate_of_ownership'] !!}
+                                        </div>
+                                    </div>
+                                </div>
+                                <h2 class="my-5">Unggah Dokumen Pernyataan</h2>
+                                <div class="row mt-3">
+                                    <div class="col-md-12">
+                                        <div class="billing_input_box">
+                                            <label for="statement_of_nodispute" class="fw-bold">
+                                                Surat Pernyataan (bermaterai) rumah/tanah tidak dalam sengketa dan akan
+                                                menghuni sendiri rumah yang diperbaiki<span style="color: red;">*</span>
+                                            </label><br>
+                                            {!! $documents['statement_of_nodispute'] !!}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-12">
+                                        <div class="billing_input_box">
+                                            <label for="statement_of_neverreceivedassistance" class="fw-bold">
+                                                Surat Pernyataan (bermaterai) belum pernah menerima bantuan perbaikan rumah
+                                                dari Pemerintah <small>(di kecualikan untuk pembuatan jamban sehat dan
+                                                    bencana)</small><span style="color: red;">*</span>
+                                            </label><br>
+                                            {!! $documents['statement_of_neverreceivedassistance'] !!}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-12">
+                                        <div class="billing_input_box">
+                                            <label for="statement_of_sellthehouse" class="fw-bold">
+                                                Surat Pernyataan (bermaterai) kesediaan tidak menjual atau menyewakan rumah
+                                                hasil rehabilitasi dalam kurun waktu 5 (lima) Tahun<span
+                                                    style="color: red;">*</span>
+                                            </label><br>
+                                            {!! $documents['statement_of_sellthehouse'] !!}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-12">
+                                        <div class="billing_input_box">
+                                            <label for="statement_of_incomebelowminimumwage" class="fw-bold">
+                                                Surat Pernyataan (bermaterai) pendapatan keluarga dibawah UMK <small>(khusus
+                                                    keluarga miskin dan pramiskin)</small>
+                                            </label><br>
+                                            {!! $documents['statement_of_incomebelowminimumwage'] !!}
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class="text-right d-flex justify-content-end mt-5">
+                    <a href="{{ route('pengajuan') }}" class="thm-btn-danger">Kembali</a>
+                </div>
+            </form>
         </div>
-    </div>
+    </section>
+@endsection
 
-    <div class="card h-100 p-0 mt-3">
-        <div class="card-header border-bottom bg-base py-16 px-24">
-            <h6 class="text-lg fw-semibold mb-0">Unggah foto survey</h6>
-        </div>
-        <div class="card-body p-24">
-            <label for="file-upload-name"
-                class="mb-16 border border-neutral-600 fw-medium text-secondary-light px-16 py-12 radius-12 d-inline-flex align-items-center gap-2 bg-hover-neutral-200">
-                <iconify-icon icon="solar:upload-linear" class="text-xl"></iconify-icon>
-                Click untuk unggah
-                <input type="file" class="form-control w-auto mt-24 form-control-lg" id="file-upload-name" multiple
-                    hidden>
-            </label>
-            <ul id="uploaded-img-names" class=""></ul>
-        </div>
-    </div>
+@section('css')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css">
+
+    <style>
+        .bs-stepper .step-trigger.disabled,
+        .bs-stepper .step-trigger:disabled {
+            opacity: 1 !important;
+        }
+    </style>
+@endsection
+
+@section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/bs-stepper/dist/js/bs-stepper.min.js"></script>
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+    <script>
+        $(document).on('click', '.open', function() {
+            let head = $(this).closest('.col-md-9');
+            let type = $(this).closest('.row').find('.fw-bold').text();
+            if (type === 'NIK') {
+                $.ajax({
+                    url: "{{ route('data.nik_data', ['name' => Crypt::encrypt('211'), 'id' => Crypt::encrypt(Auth::user()->id)]) }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(res) {
+                        if (res.success) {
+                            head.html(`
+                                ${res.data}
+                                <span class="iconify close ms-3" style="cursor: pointer;" data-icon="mdi:eye-off" data-width="20"
+                                    data-height="20"></span>
+                            `);
+                        } else {
+                            flasher.error(res.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        flasher.error('Gagal mendapatkan data NIK.');
+                    }
+                });
+            } else {
+                $.ajax({
+                    url: "{{ route('data.kk_data', ['name' => Crypt::encrypt('122'), 'id' => Crypt::encrypt(Auth::user()->id)]) }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(res) {
+                        if (res.success) {
+                            head.html(`
+                                ${res.data}
+                                <span class="iconify close ms-3" style="cursor: pointer;" data-icon="mdi:eye-off" data-width="20"
+                                    data-height="20"></span>
+                            `);
+                        } else {
+                            flasher.error(res.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        flasher.error('Gagal mendapatkan data No. KK.');
+                    }
+                });
+            }
+
+        });
+
+        $(document).on('click', '.close', function() {
+            let head = $(this).closest('.col-md-9');
+            let type = $(this).closest('.row').find('.fw-bold').text();
+            head.empty();
+            if (type === 'NIK') {
+                head.html(`
+                    {{ substr(Auth::user()->nik, 0, 4) . str_repeat('*', 12) }}
+                    <span class="iconify open ms-3" style="cursor: pointer;" data-icon="mdi:eye" data-width="20"
+                            data-height="20"></span> 
+                `);
+            } else {
+                head.html(`
+                    {{ substr(Auth::user()->no_kk, 0, 4) . str_repeat('*', 12) }}
+                    <span class="iconify open ms-3" style="cursor: pointer;" data-icon="mdi:eye" data-width="20"
+                            data-height="20"></span> 
+                `);
+            }
+
+        });
+    </script>
 @endsection

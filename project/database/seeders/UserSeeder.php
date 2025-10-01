@@ -36,6 +36,7 @@ class UserSeeder extends Seeder
                 'pic_no_kk' => '[null]',
                 'system_verified_status' => 'verified',
                 'role' => 'admin99',
+                'poor_family_status' => 'non-gamis',
             ],
             [
                 'name' => "John Doe",
@@ -52,6 +53,7 @@ class UserSeeder extends Seeder
                 'pic_no_kk' => '[null]',
                 'system_verified_status' => 'verified',
                 'role' => 'user',
+                'poor_family_status' => 'non-gamis',
             ],
         ]);
 

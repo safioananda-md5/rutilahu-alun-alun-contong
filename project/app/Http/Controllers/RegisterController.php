@@ -102,6 +102,7 @@ class RegisterController extends Controller
                 'pic_selfie_nik' => "none",
                 'pic_no_kk' => "none",
                 'system_verified_status' => 'unverified',
+                'poor_family_status' => 'none',
                 'role' => 'user',
             ]);
 

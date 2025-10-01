@@ -39,8 +39,8 @@
                     @endif
                 </div>
             </div>
-            <form action="{{ route('store_formulir_pengajuan') }}" method="POST" class="billing_details_form"
-                id="submissionForm" novalidate>
+            <form action="{{ route('store_formulir_pengajuan', Crypt::encrypt(Auth::user()->id)) }}" method="POST"
+                class="billing_details_form" id="submissionForm" enctype="multipart/form-data" novalidate>
                 @csrf
                 <div class="your_order">
                     <div class="row">
@@ -448,19 +448,50 @@
         $(document).on('click', '.open', function() {
             let head = $(this).closest('.col-md-9');
             let type = $(this).closest('.row').find('.fw-bold').text();
-            head.empty();
             if (type === 'NIK') {
-                head.html(`
-                    {{ Auth::user()->nik }}
-                    <span class="iconify close ms-3" style="cursor: pointer;" data-icon="mdi:eye-off" data-width="20"
-                        data-height="20"></span>
-                `);
+                $.ajax({
+                    url: "{{ route('data.nik_data', ['name' => Crypt::encrypt('211'), 'id' => Crypt::encrypt(Auth::user()->id)]) }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(res) {
+                        if (res.success) {
+                            head.html(`
+                                ${res.data}
+                                <span class="iconify close ms-3" style="cursor: pointer;" data-icon="mdi:eye-off" data-width="20"
+                                    data-height="20"></span>
+                            `);
+                        } else {
+                            flasher.error(res.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        flasher.error('Gagal mendapatkan data NIK.');
+                    }
+                });
             } else {
-                head.html(`
-                    {{ Auth::user()->no_kk }}
-                    <span class="iconify close ms-3" style="cursor: pointer;" data-icon="mdi:eye-off" data-width="20"
-                        data-height="20"></span>
-                `);
+                $.ajax({
+                    url: "{{ route('data.kk_data', ['name' => Crypt::encrypt('122'), 'id' => Crypt::encrypt(Auth::user()->id)]) }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(res) {
+                        if (res.success) {
+                            head.html(`
+                                ${res.data}
+                                <span class="iconify close ms-3" style="cursor: pointer;" data-icon="mdi:eye-off" data-width="20"
+                                    data-height="20"></span>
+                            `);
+                        } else {
+                            flasher.error(res.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        flasher.error('Gagal mendapatkan data No. KK.');
+                    }
+                });
             }
 
         });
@@ -491,9 +522,8 @@
             value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
             $(this).val(value);
         });
-        $(document).on('submit', '#submissionForm', function(e) {
-            e.preventDefault();
 
+        $(document).on('submit', '#submissionForm', function(e) {
             $('#submit')
                 .prop('disabled', true)
                 .text('Mengajukan...')
@@ -570,8 +600,9 @@
             });
 
             if (valid) {
-                $(this).submit();
+                $(this).off('submit').submit();
             } else {
+                e.preventDefault();
                 $('#submit')
                     .prop('disabled', false)
                     .text('Ajukan Formulir')

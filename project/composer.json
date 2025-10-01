@@ -40,7 +40,8 @@
             "Tests\\": "tests/"
         },
         "files": [
-            "app/Helpers/ApiHelper.php"
+            "app/Helpers/ApiHelper.php",
+            "app/Helpers/PengajuanStatusHelper.php"
         ]
     },
     "scripts": {
