@@ -66,7 +66,7 @@
                     </div>
                 </div>
                 @foreach ($dataRT as $indexdataRT => $RT)
-                    @if ($RT->parent === 'RW' . $RW->number)
+                    @if ($RT->parent === $RW->number)
                         <div class="row mt-3">
                             <div class="col-md-6">
                                 <div>

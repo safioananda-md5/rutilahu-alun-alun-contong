@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RTRW;
 use Illuminate\Http\Request;
 use Flasher\Laravel\Facade\Flasher;
 use Illuminate\Support\Facades\Auth;
@@ -59,6 +60,17 @@ class LoginController extends Controller
             if ($user->role === 'admin99') {
                 Flasher::addSuccess('Login Berhasil | Selamat datang admin.');
                 return redirect()->route('admin.dashboard_admin');
+            }
+
+            if ($user->role === 'rtrw') {
+                $position = RTRW::where('user_id', $user->id)->first();
+                if ($position->status === 'RT') {
+                    Flasher::addSuccess('Login Berhasil | Selamat datang Ketua RT ' . str_pad($position->number, 2, '0', STR_PAD_LEFT) . '.');
+                    return redirect()->route('RT.dashboard_rt');
+                } else {
+                    Flasher::addSuccess('Login Berhasil | Selamat datang Ketua RW ' . str_pad($position->number, 2, '0', STR_PAD_LEFT) . '.');
+                    return redirect()->route('RW.dashboard_rw');
+                }
             }
 
             Flasher::addSuccess('Login Berhasil | Selamat datang ' . $user->name . '.');

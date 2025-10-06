@@ -88,7 +88,7 @@ class RTRWSeeder extends Seeder
 
                         DB::table('rtrws')->insert(
                             [
-                                'parent' => 'RW' . $i,
+                                'parent' => $i,
                                 'status' => 'RT',
                                 'number' => $j,
                                 'user_id' => $inputRT->id,

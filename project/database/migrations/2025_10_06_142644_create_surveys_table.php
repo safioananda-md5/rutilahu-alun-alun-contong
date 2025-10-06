@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rtrws', function (Blueprint $table) {
+        Schema::create('surveys', function (Blueprint $table) {
             $table->id();
-            $table->integer('parent')->nullable();
-            $table->string('status');
-            $table->integer('number');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')
-                ->references('id')->on('users')
+            $table->unsignedBigInteger('submission_id');
+            $table->foreign('submission_id')
+                ->references('id')->on('submissions')
                 ->onDelete('cascade');
+            $table->string('picname');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rtrws');
+        Schema::dropIfExists('survey');
     }
 };

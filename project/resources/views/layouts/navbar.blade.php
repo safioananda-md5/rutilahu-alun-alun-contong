@@ -19,7 +19,7 @@
                                         <a href="{{ route('information') }}">Informasi </a>
                                     </li>
                                     @if (Auth::check())
-                                        @if (Auth::user()->role !== 'admin99')
+                                        @if (!in_array(Auth::user()->role, ['admin99', 'rtrw']))
                                             <li>
                                                 <a href="{{ route('pengajuan') }}">Pengajuan</a>
                                             </li>

@@ -44,7 +44,8 @@
                                     @if (!in_array($submission->status, [1, 3, 5, 6, 7, 8, 9]))
                                         {!! \App\Helpers\PengajuanStatusHelper::Status($submission->status) !!}
                                     @elseif($submission->status === 6)
-                                        -
+                                        <a href="{{ route('admin.detail_pengajuan', Crypt::encrypt($submission->id)) }}"
+                                            class="btn btn-warning-600 radius-8 px-14 py-6 text-sm">Setujui</a>
                                     @endif
                                 </td>
                             </tr>
@@ -78,7 +79,10 @@
                                 <td>{{ $prospectivesubmission->user->name }}</td>
                                 <td>{{ $prospectivesubmission->address }}, RW {{ $prospectivesubmission->no_rw }},
                                     RT{{ $prospectivesubmission->no_rt }}</td>
-                                <td style="text-align: center;">-</td>
+                                <td style="text-align: center;">
+                                    <a href="{{ route('admin.detail_pengajuan', Crypt::encrypt($prospectivesubmission->id)) }}"
+                                        class="btn btn-primary-600 radius-8 px-14 py-6 text-sm">Detail</a>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

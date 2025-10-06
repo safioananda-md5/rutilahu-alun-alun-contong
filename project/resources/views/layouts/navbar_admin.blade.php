@@ -35,7 +35,18 @@
                             <div>
                                 <h6 class="text-lg text-primary-light fw-semibold mb-2">
                                     {{ \Illuminate\Support\Str::limit(Auth::user()->name, 15, '...') }}</h6>
-                                <span class="text-secondary-light fw-medium text-sm">Admin</span>
+                                <span class="text-secondary-light fw-medium text-sm">
+                                    @if (Auth::user()->role === 'admin99')
+                                        Admin
+                                    @else
+                                        @if ($posisitonStatus === 'RT')
+                                            Ketua RT {{ str_pad($posisitonNumber, 2, '0', STR_PAD_LEFT) }} RW
+                                            {{ str_pad($posisitonParent, 2, '0', STR_PAD_LEFT) }}
+                                        @else
+                                            Ketua RW {{ str_pad($posisitonNumber, 2, '0', STR_PAD_LEFT) }}
+                                        @endif
+                                    @endif
+                                </span>
                             </div>
                             <button type="button" class="hover-text-danger">
                                 <iconify-icon icon="radix-icons:cross-1" class="icon text-xl"></iconify-icon>

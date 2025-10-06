@@ -11,37 +11,57 @@
     </div>
     <div class="sidebar-menu-area">
         <ul class="sidebar-menu" id="sidebar-menu">
-            <li>
-                <a href="{{ route('admin.dashboard_admin') }}">
-                    <iconify-icon icon="solar:home-smile-angle-outline" class="menu-icon"></iconify-icon>
-                    <span>Dashboard</span>
-                </a>
-            </li>
+            @if (Auth::user()->role === 'admin99')
+                <li>
+                    <a href="{{ route('admin.dashboard_admin') }}">
+                        <iconify-icon icon="solar:home-smile-angle-outline" class="menu-icon"></iconify-icon>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+            @elseif (Auth::user()->role === 'rtrw')
+                @if ($posisitonStatus === 'RT')
+                    <li>
+                        <a href="{{ route('RT.dashboard_rt') }}">
+                            <iconify-icon icon="solar:home-smile-angle-outline" class="menu-icon"></iconify-icon>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                @else
+                    <li>
+                        <a href="{{ route('RW.dashboard_rw') }}">
+                            <iconify-icon icon="solar:home-smile-angle-outline" class="menu-icon"></iconify-icon>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                @endif
+            @endif
             <li>
                 <a href="{{ route('home') }}">
                     <iconify-icon icon="solar:home-smile-angle-outline" class="menu-icon"></iconify-icon>
                     <span>Halaman User</span>
                 </a>
             </li>
-            @livewire('user-account-badge')
-            <li class="dropdown">
-                <a href="javascript:void(0)">
-                    <i class="ri-news-line text-xl me-14 d-flex w-auto"></i>
-                    <span>Informasi</span>
-                </a>
-                <ul class="sidebar-submenu">
-                    <li>
-                        <a href="{{ route('admin.information.create_information') }}"><i
-                                class="ri-circle-fill circle-icon text-success-main w-auto"></i>
-                            Tambah Informasi</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('admin.information.list_information') }}"><i
-                                class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
-                            Daftar Informasi</a>
-                    </li>
-                </ul>
-            </li>
+            @if (Auth::user()->role === 'admin99')
+                @livewire('user-account-badge')
+                <li class="dropdown">
+                    <a href="javascript:void(0)">
+                        <i class="ri-news-line text-xl me-14 d-flex w-auto"></i>
+                        <span>Informasi</span>
+                    </a>
+                    <ul class="sidebar-submenu">
+                        <li>
+                            <a href="{{ route('admin.information.create_information') }}"><i
+                                    class="ri-circle-fill circle-icon text-success-main w-auto"></i>
+                                Tambah Informasi</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.information.list_information') }}"><i
+                                    class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
+                                Daftar Informasi</a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
             <li class="sidebar-menu-group-title">Application</li>
             <li>
                 <a href="email.html">

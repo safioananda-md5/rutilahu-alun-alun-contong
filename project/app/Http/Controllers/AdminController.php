@@ -235,7 +235,7 @@ class AdminController extends Controller
             $RT = $id[5];
             $message = "Data Nama RW " . $RW . " RT " . $RT . " berhasil diperbarui.";
             $user = User::whereHas('rtrw', function ($query) use ($RW, $RT) {
-                $query->where('parent', 'RW' . $RW)->where('status', 'RT')->where('number', $RT);
+                $query->where('parent', $RW)->where('status', 'RT')->where('number', $RT);
             })->first();
             $user->update(['name' => $value]);
             if ($user->name !== '[none]' && $user->phone !== '[none' . $RW . $RT . ']') {
@@ -252,7 +252,7 @@ class AdminController extends Controller
             $RT = $id[7];
             $message = "Data No. Telepon RW " . $RW . " RT " . $RT . " berhasil diperbarui.";
             $user = User::whereHas('rtrw', function ($query) use ($RW, $RT) {
-                $query->where('parent', 'RW' . $RW)->where('status', 'RT')->where('number', $RT);
+                $query->where('parent', $RW)->where('status', 'RT')->where('number', $RT);
             })->first();
             if ($value === '[none]') {
                 $user->update(['phone' => '[none' . $RW . $RT . ']']);

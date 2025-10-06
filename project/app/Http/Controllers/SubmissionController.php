@@ -2,18 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Throwable;
-use App\Helpers\ApiHelper;
 use App\Models\RTRW;
-use App\Models\Submission;
 use App\Models\User;
+use App\Models\Survey;
+use App\Helpers\ApiHelper;
+use App\Models\Submission;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\DB;
 use Flasher\Laravel\Facade\Flasher;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 class SubmissionController extends Controller
@@ -461,5 +466,113 @@ class SubmissionController extends Controller
         }
 
         return view('page.submission.detail', compact('Legalitas', 'Katap', 'Kdinding', 'Klantai', 'submissions', 'documents'));
+    }
+
+    public function upload(Request $request, $id)
+    {
+        $rules = [
+            'picsurvey' => 'required|array',
+            'picsurvey.*' => [
+                'image',
+                'max:2048',
+                'mimes:jpg,jpeg,png',
+            ]
+        ];
+
+        $messages = [
+            'picsurvey.required' => 'Mohon pilih setidaknya satu foto survei.',
+            'picsurvey.array'    => 'Data foto survei harus berupa kumpulan (array).',
+            'picsurvey.*.image'  => 'File :attribute harus berupa gambar yang valid (misal: jpg, png).',
+            'picsurvey.*.max'    => 'Ukuran file :attribute tidak boleh melebihi :max KB (2 MB).',
+            'picsurvey.*.mimes'  => 'Format file :attribute harus jpg, jpeg, atau png.'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            foreach ($errors as $error) {
+                Flasher::addError($error);
+            }
+            return redirect()->back()->withFragment('foto');
+        }
+
+        $id_DC = Crypt::decrypt($id);
+        $submission = Submission::where('id', $id_DC)->first();
+
+        if (!$submission) {
+            Flasher::addError('Data pengajuan tidak ditemukan.');
+            return redirect()->back()->withFragment('foto');
+        }
+
+        try {
+            DB::beginTransaction();
+
+            if ($request->hasFile('picsurvey')) {
+                $files = $request->file('picsurvey');
+
+                foreach ($files as $file) {
+                    $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
+                    Storage::disk('public')->putFileAs('file_foto_survey/' . $id_DC, $file, $filename);
+
+                    $survey = Survey::create([
+                        'submission_id' => $id_DC,
+                        'picname' => $filename
+                    ]);
+                }
+
+                DB::commit();
+            }
+
+            Flasher::addSuccess('Foto survey berhasil ditambahkan.');
+            return redirect()->back()->withFragment('foto');
+        } catch (Validate $e) {
+            DB::rollBack();
+            Flasher::addError('Foto survey gagal ditambahkan.');
+            return redirect()->back()->withFragment('foto');
+        } catch (Exception $e) {
+            DB::rollBack();
+            Flasher::addError('Foto survey gagal ditambahkan.');
+            return redirect()->back()->withFragment('foto');
+        }
+        // dd($request->all());
+
+        // Flasher::addSuccess('Foto survey berhasil ditambahkan.');
+        // return redirect()->back();
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        $id_DC = Crypt::decrypt($id);
+        $submit_DC = Crypt::decrypt($request->submit);
+
+        $survey = Survey::where('id', $id_DC)->first();
+        if ($id_DC !== $submit_DC && $survey) {
+            Flasher::addError('Terdapat error saat menghapus foto survey.');
+            return redirect()->back()->withFragment('foto');
+        }
+
+        try {
+            DB::beginTransaction();
+
+            $filePath = 'file_foto_survey/' . $survey->submission_id . '/' . $survey->filename;
+            $oldFilePath = 'file_foto_survey/' . $survey->submission_id . '/' . $survey->picname;
+            $newFilename = 'DEL_' . $survey->picname;
+            $newFilePath = 'file_foto_survey/' . $survey->submission_id . '/' . $newFilename;
+            if (Storage::disk('public')->exists($filePath)) {
+                $survey->update([
+                    'picname' => $newFilename
+                ]);
+                $survey->delete();
+                Storage::disk('public')->move($oldFilePath, $newFilePath);
+            }
+
+            DB::commit();
+            Flasher::addSuccess('Foto survey berhasil dihapus.');
+            return redirect()->back()->withFragment('foto');
+        } catch (Exception $e) {
+            DB::rollBack();
+            Flasher::addError('Foto survey gagal dihapus.');
+            return redirect()->back()->withFragment('foto');
+        }
     }
 }

@@ -311,13 +311,13 @@
                                     <div class="col-md-12">
                                         <div class="billing_input_box">
                                             <label for="certificate_of_ownership" class="fw-bold">
-                                                Unggah Serfikat Hak Milik<span style="color: red;">*</span>
+                                                Unggah Serfikat Legalitas Bangunan<span style="color: red;">*</span>
                                             </label><br>
                                             <small class="m-0 p-0 mb-2">Format dokumen .pdf</small>
                                             <div class="input-group mb-3">
                                                 <input type="file" class="form-control"
-                                                    name="certificate_of_ownership" data-label="Sertifikat Hak Milik"
-                                                    accept="application/pdf">
+                                                    name="certificate_of_ownership"
+                                                    data-label="Sertifikat Legalitas Bangunan" accept="application/pdf">
                                             </div>
                                             <span class="error-text text-danger"></span>
                                             @error('certificate_of_ownership')
@@ -625,19 +625,19 @@
 
         $(document).on('select2:select', '#no_rw', function(e) {
             let data = e.params.data;
-            let value = data.id;
+            let value = parseInt(data.id, 10);
             const allRT = @json($dataRT);
 
             if (value) {
                 console.log("Value:", data.id);
-                let filtered = allRT.filter(rt => rt.parent === `RW${value}`);
+                let filtered = allRT.filter(rt => rt.parent === value);
 
                 let selectForm = `<option value="">-- Pilih RT --</option>`;
 
                 filtered.forEach(rt => {
                     selectForm += `
                         <option value="${rt.number}">
-                            ${rt.parent} ${rt.status} ${rt.number} - ${rt.user.name}
+                            RW ${rt.parent} ${rt.status} ${rt.number} - ${rt.user.name}
                         </option>
                     `;
                 });

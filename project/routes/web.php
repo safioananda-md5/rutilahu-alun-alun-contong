@@ -1,13 +1,15 @@
 <?php
 
-use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PDFController;
+use App\Http\Controllers\DataController;
+use App\Http\Controllers\RTRWController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\WilayahController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\DataController;
 use App\Http\Controllers\SubmissionController;
 use App\Http\Controllers\InformationController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -23,6 +25,8 @@ Route::get('/village/{id}', [WilayahController::class, 'getVillage']);
 Route::get('/', function () {
     return redirect('/home');
 })->name("index");
+
+Route::get('/pdf/{filename}/{code}', [PDFController::class, 'index'])->name("blank_pdf");
 
 // Home
 Route::get('/home', [DashboardController::class, 'index'])->name("home");
@@ -92,6 +96,10 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.', 'middleware' => 'checkRole
         Route::put('/update', [AdminController::class, 'update_RTRW'])->name("update_RTRW");
         Route::put('/updatePWD', [AdminController::class, 'reserPWD_RTRW'])->name("reserPWD_RTRW");
     });
+
+    Route::get('/detail-pengajuan/{id}', [RTRWController::class, 'detail'])->name("detail_pengajuan");
+    Route::post('/survey-pengajuan/photo/upload/{id}', [SubmissionController::class, 'upload'])->name("upload_survey");
+    Route::delete('/survey-pengajuan/photo/destroy/{id}', [SubmissionController::class, 'destroy'])->name("destroy_survey");
 });
 
 
@@ -103,23 +111,17 @@ Route::group(['prefix' => '/20251001-5G7K', 'as' => 'data.', 'middleware' => 'au
 // Admin Page ===============---------------------------------
 
 // RT RW Page ===============---------------------------------
-// Route::get('/rt', function () {
-//     return view('page.dashboard.rtrw');
-// })->name("dashboard_rt");
 
-// Route::get('/daftar-pengajuan', function () {
-//     return view('page.submission.list');
-// })->name("daftar_pengajuan");
+Route::group(['prefix' => '/RT', 'as' => 'RT.', 'middleware' => 'checkRole:rtrw'], function () {
+    Route::get('/dashboard', [RTRWController::class, 'index'])->name("dashboard_rt");
+    Route::get('/detail-pengajuan/{id}', [RTRWController::class, 'detail'])->name("detail_pengajuan");
+});
 
-// Route::get('/detail-pengajuan', function () {
-//     return view('page.submission.detail');
-// })->name("detail_pengajuan");
+Route::group(['prefix' => '/RW', 'as' => 'RW.', 'middleware' => 'checkRole:rtrw'], function () {
+    Route::get('/dashboard', [RTRWController::class, 'index'])->name("dashboard_rw");
+    Route::get('/detail-pengajuan/{id}', [RTRWController::class, 'detail'])->name("detail_pengajuan");
+});
 
+Route::post('/SetujuRTRW/{id}', [RTRWController::class, 'update'])->name("update_pengajuan_RT");
 
-// Route::get('/daftar-informasi', function () {
-//     return view('page.information.list');
-// })->name("daftar_informasi");
-
-// Route::get('/tambah-informasi', function () {
-//     return view('page.information.add');
-// })->name("tambah_informasi");
+// RT RW Page ===============---------------------------------
