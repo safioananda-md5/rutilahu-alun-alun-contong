@@ -12,7 +12,7 @@ class UserAccountBadge extends Component
     public function render()
     {
         // Cek User Verification
-        $this->countVerification = User::where('system_verified_status', 'unverified')->count();
+        $this->countVerification = User::where('system_verified_status', 'unverified')->where('role', 'user')->count();
         return view('livewire.user-account-badge');
     }
 }

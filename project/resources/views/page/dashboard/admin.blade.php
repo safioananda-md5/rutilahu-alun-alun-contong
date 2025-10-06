@@ -1,53 +1,17 @@
 @extends('layouts.admin')
 
 @section('content')
-
     <div class="row gy-2">
         <div class="col-xxxl-12">
             <div class="row gy-4">
-                <div class="col-xxl-3 col-xl-4 col-sm-6">
+                <div class="col-md-4">
                     <div class="card p-3 shadow-2 radius-8 h-100 bg-gradient-end-6">
-                        <div class="card-body p-0">
-                            <div class="d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8">
-
-                                <div class="d-flex align-items-center gap-2">
-                                    <span
-                                        class="mb-0 w-48-px h-48-px bg-cyan-100 text-cyan-600 flex-shrink-0 text-white d-flex justify-content-center align-items-center rounded-circle h6 mb-0">
-                                        <i class="ri-group-fill"></i>
-                                    </span>
-                                    <div>
-                                        <h6 class="fw-semibold mb-2">650</h6>
-                                        <span class="fw-medium text-secondary-light text-sm">Total Warga
-                                            Mengajukan</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="text-sm mb-0"> <span class="text-cyan-600">4</span> Warga mengajukan minggu
-                                ini
-                            </p>
-                        </div>
+                        @livewire('total-submission')
                     </div>
                 </div>
-                <div class="col-xxl-3 col-xl-4 col-sm-6">
+                <div class="col-md-4">
                     <div class="card p-3 shadow-2 radius-8 h-100 bg-gradient-end-4">
-                        <div class="card-body p-0">
-                            <div class="d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8">
-
-                                <div class="d-flex align-items-center gap-2">
-                                    <span
-                                        class="mb-0 w-48-px h-48-px bg-lilac-100 text-lilac-600 flex-shrink-0 text-white d-flex justify-content-center align-items-center rounded-circle h6 mb-0">
-                                        <i class="ri-award-fill"></i>
-                                    </span>
-                                    <div>
-                                        <h6 class="fw-semibold mb-2">570</h6>
-                                        <span class="fw-medium text-secondary-light text-sm">Total Bantuan
-                                            Diterima</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="text-sm mb-0"> <span class="text-lilac-600">8</span> Bantuan diterima bulan
-                                ini</p>
-                        </div>
+                        @livewire('total-received')
                     </div>
                 </div>
             </div>
@@ -56,41 +20,175 @@
 
     <div class="card basic-data-table mt-5">
         <div class="card-header">
-            <h5 class="card-title mb-0">Data Pengajuan</h5>
+            <h5 class="card-title mb-0">Data Pengajuan Baru</h5>
         </div>
         <div class="card-body">
-            <table class="table bordered-table mb-0" id="dataTable">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Nama</th>
-                        <th>No</th>
-                        <th>Nama</th>
-                        <th>No</th>
-                        <th>Nama</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for ($i = 0; $i < 20; $i++)
+            <div class="datatable-scroll">
+                <table class="table bordered-table mb-0" id="submissions" style="table-layout: fixed; width: 100%;">
+                    <thead>
                         <tr>
-                            <td>{{ $i + 1 }}</td>
-                            <td>Safio_{{ $i + 1 }}</td>
-                            <td>{{ $i + 1 }}</td>
-                            <td>Safio_{{ $i + 1 }}</td>
-                            <td>{{ $i + 1 }}</td>
-                            <td>Safio_{{ $i + 1 }}</td>
+                            <th style="width:20%">ID Pengajuan</th>
+                            <th style="width:30%">Nama</th>
+                            <th style="width:40%">Alamat</th>
+                            <th style="width:10%; text-align: center;">Aksi</th>
                         </tr>
-                    @endfor
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($submissions as $submission)
+                            <tr>
+                                <td>{{ $submission->submission_id }}</td>
+                                <td>{{ $submission->user->name }}</td>
+                                <td>{{ $submission->address }}, RW {{ $submission->no_rw }},
+                                    RT{{ $submission->no_rt }}</td>
+                                <td style="text-align: center;">
+                                    @if (!in_array($submission->status, [1, 3, 5, 6, 7, 8, 9]))
+                                        {!! \App\Helpers\PengajuanStatusHelper::Status($submission->status) !!}
+                                    @elseif($submission->status === 6)
+                                        -
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="card basic-data-table mt-5">
+        <div class="card-header">
+            <h5 class="card-title mb-0 text-primary">Data Calon Penerima RUTILAHU</h5>
+        </div>
+        <div class="card-body">
+            <div class="datatable-scroll">
+                <table class="table bordered-table mb-0" id="prospectivesubmissions"
+                    style="table-layout: fixed; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th style="width:20%">ID Pengajuan</th>
+                            <th style="width:30%">Nama</th>
+                            <th style="width:40%">Alamat</th>
+                            <th style="width:10%; text-align: center;">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($prospectivesubmissions as $prospectivesubmission)
+                            <tr>
+                                <td>{{ $prospectivesubmission->submission_id }}</td>
+                                <td>{{ $prospectivesubmission->user->name }}</td>
+                                <td>{{ $prospectivesubmission->address }}, RW {{ $prospectivesubmission->no_rw }},
+                                    RT{{ $prospectivesubmission->no_rt }}</td>
+                                <td style="text-align: center;">-</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="card basic-data-table mt-5">
+        <div class="card-header">
+            <h5 class="card-title mb-0 text-success">Data Penerima RUTILAHU</h5>
+        </div>
+        <div class="card-body">
+            <div class="datatable-scroll">
+                <table class="table bordered-table mb-0" id="recipientsubmission" style="table-layout: fixed; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th style="width:20%; text-align: start">Diterima Tanggal</th>
+                            <th style="width:30%">Nama</th>
+                            <th style="width:50%">Alamat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($recipientsubmissions as $recipientsubmission)
+                            <tr>
+                                <td style="text-align: start">
+                                    {{ \Carbon\Carbon::parse($recipientsubmission->created_at)->translatedFormat('j F Y') }}
+                                </td>
+                                <td>{{ $recipientsubmission->user->name }}</td>
+                                <td>{{ $recipientsubmission->address }}, RW {{ $recipientsubmission->no_rw }},
+                                    RT{{ $recipientsubmission->no_rt }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 @endsection
 
 @section('css')
     <style>
-        table, th, td {
-            text-align: left !important;
+        #submissions,
+        #prospectivesubmissions,
+        #recipientsubmission {
+            table-layout: fixed;
+            width: 100%;
+            min-width: 700px;
+            /* opsional, biar scrollbar muncul */
+            border-collapse: collapse;
+        }
+
+        #submissions td,
+        #submissions th,
+        #recipientsubmission th,
+        #prospectivesubmissions td,
+        #prospectivesubmissions th,
+        #recipientsubmission th,
+        table.dataTable td,
+        table.dataTable th {
+            white-space: normal !important;
+            word-break: break-word !important;
+            overflow-wrap: anywhere !important;
+        }
+
+        #submissions td div,
+        #recipientsubmission td div,
+        #prospectivesubmissions td div {
+            white-space: normal !important;
+        }
+
+        table.dataTable td span,
+        #submissions td span,
+        #recipientsubmission td span,
+        #prospectivesubmissions td span {
+            display: inline-block;
+            /* atau block */
+            width: 100%;
+            /* isi penuh kolom */
+            white-space: normal !important;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+            text-align: center;
+            /* kalau ingin rata tengah seperti badge */
+        }
+
+        /* Biar hanya isi tabel yang bisa scroll */
+        .datatable-scroll {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Scrollbar tampil rapi */
+        .datatable-scroll::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .datatable-scroll::-webkit-scrollbar-thumb {
+            background-color: #bbb;
+            border-radius: 10px;
+        }
+
+        .datatable-scroll::-webkit-scrollbar-thumb:hover {
+            background-color: #999;
+        }
+
+        @media (max-width: 768px) {
+            .datatable-scroll {
+                overflow-x: auto;
+            }
         }
     </style>
 @endsection
@@ -102,6 +200,113 @@
     <script src="{{ asset('assets/js/lib/iconify-icon.min.js') }}"></script>
 
     <script>
-        let table = new DataTable('#dataTable');
+        let submissions_table = new DataTable('#submissions', {
+            responsive: true,
+            autoWidth: false,
+            order: [],
+            language: {
+                emptyTable: "Tidak ada data yang tersedia di tabel",
+                info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                infoEmpty: "Menampilkan 0 sampai 0 dari 0 data",
+                infoFiltered: "(disaring dari total _MAX_ data)",
+                lengthMenu: "Tampilkan _MENU_ data",
+                loadingRecords: "Memuat...",
+                processing: "Sedang memproses...",
+                search: "Cari:",
+                zeroRecords: "Tidak ada data yang cocok ditemukan",
+            },
+            columnDefs: [{
+                    targets: [0],
+                    searchable: true,
+                    orderable: false
+                },
+                {
+                    targets: [1],
+                    searchable: true,
+                    orderable: false
+                },
+                {
+                    targets: [2],
+                    searchable: true,
+                    orderable: false
+                },
+                {
+                    targets: [3],
+                    searchable: false,
+                    orderable: false
+                },
+            ]
+        });
+
+        let prospectivesubmissions_table = new DataTable('#prospectivesubmissions', {
+            responsive: true,
+            autoWidth: false,
+            order: [],
+            language: {
+                emptyTable: "Tidak ada data yang tersedia di tabel",
+                info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                infoEmpty: "Menampilkan 0 sampai 0 dari 0 data",
+                infoFiltered: "(disaring dari total _MAX_ data)",
+                lengthMenu: "Tampilkan _MENU_ data",
+                loadingRecords: "Memuat...",
+                processing: "Sedang memproses...",
+                search: "Cari:",
+                zeroRecords: "Tidak ada data yang cocok ditemukan",
+            },
+            columnDefs: [{
+                    targets: [0],
+                    searchable: true,
+                    orderable: false
+                },
+                {
+                    targets: [1],
+                    searchable: true,
+                    orderable: false
+                },
+                {
+                    targets: [2],
+                    searchable: true,
+                    orderable: false
+                },
+                {
+                    targets: [3],
+                    searchable: false,
+                    orderable: false
+                },
+            ]
+        });
+
+        let recipientsubmission_table = new DataTable('#recipientsubmission', {
+            responsive: true,
+            autoWidth: false,
+            order: [],
+            language: {
+                emptyTable: "Tidak ada data yang tersedia di tabel",
+                info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                infoEmpty: "Menampilkan 0 sampai 0 dari 0 data",
+                infoFiltered: "(disaring dari total _MAX_ data)",
+                lengthMenu: "Tampilkan _MENU_ data",
+                loadingRecords: "Memuat...",
+                processing: "Sedang memproses...",
+                search: "Cari:",
+                zeroRecords: "Tidak ada data yang cocok ditemukan",
+            },
+            columnDefs: [{
+                    targets: [0],
+                    searchable: true,
+                    orderable: true
+                },
+                {
+                    targets: [1],
+                    searchable: true,
+                    orderable: false
+                },
+                {
+                    targets: [2],
+                    searchable: true,
+                    orderable: false
+                },
+            ]
+        });
     </script>
 @endsection

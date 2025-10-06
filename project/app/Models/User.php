@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\RTRW;
 use App\Models\Submission;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -63,5 +64,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function submission()
     {
         return $this->hasOne(Submission::class);
+    }
+
+    public function rtrw()
+    {
+        return $this->hasOne(RTRW::class);
     }
 }

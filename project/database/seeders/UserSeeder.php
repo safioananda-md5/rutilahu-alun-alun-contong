@@ -55,6 +55,23 @@ class UserSeeder extends Seeder
                 'role' => 'user',
                 'poor_family_status' => 'non-gamis',
             ],
+            [
+                'name' => "Jean Doe",
+                'email' => 'Jean.doe@gmail.com',
+                'email_verified_at' => Carbon::now(),
+                'password' => Hash::make('itsjean'),
+                'nik' => '3578139999999988',
+                'no_kk' => '3578139999999988',
+                'regency' => 'Kota Surabaya',
+                'phone' => '082345678800',
+                'phone_verified_at' => Carbon::now(),
+                'pic_nik' => '[null]',
+                'pic_selfie_nik' => '[null]',
+                'pic_no_kk' => '[null]',
+                'system_verified_status' => 'verified',
+                'role' => 'user',
+                'poor_family_status' => 'non-gamis',
+            ],
         ]);
 
         DB::table('users')->update([

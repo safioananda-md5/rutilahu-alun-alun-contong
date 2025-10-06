@@ -29,6 +29,13 @@
                                             <a href="{{ route('pengajuan') }}">Pengajuan</a>
                                         </li>
                                     @endif
+                                    @if (Auth::check())
+                                        @if (Auth::user()->role === 'admin99')
+                                            <li>
+                                                <a href="{{ route('admin.dashboard_admin') }}">Halaman Admin</a>
+                                            </li>
+                                        @endif
+                                    @endif
                                 </ul>
                             </div>
                             <div class="main-menu__main-menu-box-search-get-quote-btn">

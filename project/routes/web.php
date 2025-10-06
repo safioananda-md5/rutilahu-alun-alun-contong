@@ -87,6 +87,11 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.', 'middleware' => 'checkRole
         Route::post('/destroy-informasi', [InformationController::class, 'destroy_information'])->name("destroy_information");
         Route::delete('/destroy', [InformationController::class, 'destroy'])->name("destroy");
     });
+    Route::group(['prefix' => '/akun', 'as' => 'account.'], function () {
+        Route::get('/rt-rw', [AdminController::class, 'rt_rw_index'])->name("rt_rw_index");
+        Route::put('/update', [AdminController::class, 'update_RTRW'])->name("update_RTRW");
+        Route::put('/updatePWD', [AdminController::class, 'reserPWD_RTRW'])->name("reserPWD_RTRW");
+    });
 });
 
 

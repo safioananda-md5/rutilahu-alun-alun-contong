@@ -17,6 +17,12 @@
                     <span>Dashboard</span>
                 </a>
             </li>
+            <li>
+                <a href="{{ route('home') }}">
+                    <iconify-icon icon="solar:home-smile-angle-outline" class="menu-icon"></iconify-icon>
+                    <span>Halaman User</span>
+                </a>
+            </li>
             @livewire('user-account-badge')
             <li class="dropdown">
                 <a href="javascript:void(0)">

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Database\Seeders\RTRWSeeder;
 use Database\Seeders\UserSeeder;
 use Illuminate\Support\Facades\File;
 use Database\Seeders\SubmissionSeeder;
@@ -37,6 +38,7 @@ class DefaultSeeder extends Seeder
             InformationSeeder::class,
             InformationAttachmentSeeder::class,
             SubmissionSeeder::class,
+            RTRWSeeder::class,
         ]);
     }
 }

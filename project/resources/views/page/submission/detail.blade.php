@@ -184,8 +184,8 @@
                                             Alamat Domisili
                                         </label>
                                         <div class="billing_input_box fs-5 ms-3">
-                                            <p>{{ $submissions->address }}, RT {{ $submissions->no_rt }}, RW
-                                                {{ $submissions->no_rw }}</p>
+                                            <p>{{ $submissions->address }}, RW {{ $submissions->no_rw }}, RT
+                                                {{ $submissions->no_rt }}</p>
                                         </div>
                                     </div>
                                 </div>

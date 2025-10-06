@@ -18,5 +18,11 @@
                 @endif
             </a>
         </li>
+        <li>
+            <a href="{{ route('admin.account.rt_rw_index') }}">
+                <i class="ri-circle-fill circle-icon text-warning-600 w-auto"></i>
+                Akun RT / RW
+            </a>
+        </li>
     </ul>
 </li>

@@ -17,7 +17,6 @@ class PengajuanStatusHelper
             8 => '<span class="badge text-bg-primary">Disetujui (Calon Penerima)</span>',
             9 => '<span class="badge text-bg-success">Penerima Bantuan Rutilahu</span>',
         ];
-
         return $list[$status] ?? 'Status Tidak Dikenal';
     }
 }

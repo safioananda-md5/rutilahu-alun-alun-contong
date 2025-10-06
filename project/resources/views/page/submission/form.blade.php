@@ -49,7 +49,7 @@
                                 <h5 class="mt-5">Alamat Domisili Pemohon</h5>
                                 <hr>
                                 <div class="row d-flex align-items-end">
-                                    <div class="col-md-8">
+                                    <div class="col-md-12">
                                         <label for="address" class="mb-2 fw-bold">
                                             Alamat Domisili<span style="color: red;">*</span>
                                         </label>
@@ -64,28 +64,37 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
-                                        <label for="no_rt" class="mb-2 fw-bold">
-                                            RT<span style="color: red;">*</span>
-                                        </label>
-                                        <div class="billing_input_box">
-                                            <input type="number" data-label="RT" name="no_rt" placeholder="00">
-                                            <span class="error-text text-danger"></span>
-                                            @error('no_rt')
-                                                <small class="text-danger">{{ $message }}</small>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
+                                </div>
+                                <div class="row d-flex align-items-end">
+                                    <div class="col-md-6">
                                         <label for="no_rw" class="mb-2 fw-bold">
                                             RW<span style="color: red;">*</span>
                                         </label>
                                         <div class="billing_input_box">
-                                            <input type="number" name="no_rw" data-label="RW" placeholder="00">
-                                            <span class="error-text text-danger"></span>
-                                            @error('no_rw')
-                                                <small class="text-danger">{{ $message }}</small>
-                                            @enderror
+                                            <div class="select-box">
+                                                <select class="wide nice-select" name="no_rw" id="no_rw"
+                                                    data-label="RW">
+                                                    <option value="">-- Pilih RW --
+                                                    </option>
+                                                    @foreach ($dataRw as $dataRwItem)
+                                                        <option value="{{ $dataRwItem->number }}">
+                                                            {{ $dataRwItem->status }} {{ $dataRwItem->number }} -
+                                                            {{ $dataRwItem->user->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <span class="error-text text-danger"></span>
+                                                @error('no_rw')
+                                                    <small class="text-danger">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="no_rt" class="mb-2 fw-bold">
+                                            RT<span style="color: red;">*</span>
+                                        </label>
+                                        <div class="billing_input_box no_rt">
+                                            <input type="number" placeholder="-- Pilih RW Dahulu --" disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -611,6 +620,45 @@
                         'opacity': '1'
                     });
                 flasher.error('Terdapat data isian kosong.');
+            }
+        });
+
+        $(document).on('select2:select', '#no_rw', function(e) {
+            let data = e.params.data;
+            let value = data.id;
+            const allRT = @json($dataRT);
+
+            if (value) {
+                console.log("Value:", data.id);
+                let filtered = allRT.filter(rt => rt.parent === `RW${value}`);
+
+                let selectForm = `<option value="">-- Pilih RT --</option>`;
+
+                filtered.forEach(rt => {
+                    selectForm += `
+                        <option value="${rt.number}">
+                            ${rt.parent} ${rt.status} ${rt.number} - ${rt.user.name}
+                        </option>
+                    `;
+                });
+
+                $(document).find('.no_rt').html(`
+                    <div class="select-box">
+                        <select class="wide nice-select" name="no_rt" id="no_rt"
+                            data-label="RT">
+                            ${selectForm}
+                            </select>
+                        <span class="error-text text-danger"></span>
+                        @error('no_rt')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                `);
+
+                $('.nice-select').select2({
+                    minimumResultsForSearch: Infinity,
+                    dropdownCssClass: "minimal-scrollbar"
+                });
             }
         });
     </script>

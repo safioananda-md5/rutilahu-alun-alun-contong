@@ -504,7 +504,6 @@
                 showCancelButton: true,
                 confirmButtonText: "Ya, hapus",
                 cancelButtonText: "Batal",
-                reverseButtons: true,
                 customClass: {
                     title: 'sf-title',
                 },

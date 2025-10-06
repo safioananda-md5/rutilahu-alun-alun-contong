@@ -37,8 +37,8 @@
                                     <tr>
                                         <th width="35%">ID Pengajuan</th>
                                         <th width="35%">Alamat</th>
-                                        <th width="5%" style="text-align: center">RT</th>
                                         <th width="5%" style="text-align: center">RW</th>
+                                        <th width="5%" style="text-align: center">RT</th>
                                         <th width="20%" style="text-align: center">Status</th>
                                     </tr>
                                 </thead>
@@ -51,10 +51,10 @@
                                             {{ $submissions->address }}
                                         </td>
                                         <td width="5%" style="text-align: center">
-                                            {{ $submissions->no_rt }}
+                                            {{ $submissions->no_rw }}
                                         </td>
                                         <td width="5%" style="text-align: center">
-                                            {{ $submissions->no_rw }}
+                                            {{ $submissions->no_rt }}
                                         </td>
                                         <td width="20%" style="text-align: center">
                                             {!! \App\Helpers\PengajuanStatusHelper::Status($submissions->status) !!}

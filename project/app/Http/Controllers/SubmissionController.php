@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Throwable;
 use App\Helpers\ApiHelper;
+use App\Models\RTRW;
 use App\Models\Submission;
 use App\Models\User;
 use Illuminate\Support\Str;
@@ -114,7 +115,9 @@ class SubmissionController extends Controller
             ],
         ];
 
-        return view('page.submission.form', compact('Legalitas', 'Katap', 'Kdinding', 'Klantai'));
+        $dataRw = RTRW::with('user')->where('status', 'RW')->get();
+        $dataRT = RTRW::with('user')->where('status', 'RT')->get();
+        return view('page.submission.form', compact('Legalitas', 'Katap', 'Kdinding', 'Klantai', 'dataRw', 'dataRT'));
     }
 
     public function store(Request $request, $id)
