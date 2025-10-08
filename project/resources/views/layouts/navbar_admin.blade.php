@@ -23,9 +23,11 @@
         </div>
         <div class="col-auto">
             <div class="d-flex flex-wrap align-items-center gap-3">
+                <span class="me-3 fw-bold">{{ Auth::user()->name }} |</span>
                 <div class="dropdown">
                     <button class="d-flex justify-content-center align-items-center rounded-circle" type="button"
                         data-bs-toggle="dropdown">
+
                         <img src="{{ $base64 }}" alt="image"
                             class="w-40-px h-40-px object-fit-cover rounded-circle">
                     </button>

@@ -28,11 +28,13 @@
     <div class="card basic-data-table mt-3">
         <div class="card-header">
             @if ($position->status === 'RT')
-                <h5 class="card-title mb-0">Data Pengajuan Warga RT {{ str_pad($position->number, 2, '0', STR_PAD_LEFT) }}
+                <h5 class="card-title mb-0">Verifikasi Data Pengajuan Warga RT
+                    {{ str_pad($position->number, 2, '0', STR_PAD_LEFT) }}
                     RW
                     {{ str_pad($position->parent, 2, '0', STR_PAD_LEFT) }}</h5>
             @else
-                <h5 class="card-title mb-0">Data Pengajuan Warga RW {{ str_pad($position->number, 2, '0', STR_PAD_LEFT) }}
+                <h5 class="card-title mb-0">Verifikasi Data Pengajuan Warga RW
+                    {{ str_pad($position->number, 2, '0', STR_PAD_LEFT) }}
                 </h5>
             @endif
         </div>

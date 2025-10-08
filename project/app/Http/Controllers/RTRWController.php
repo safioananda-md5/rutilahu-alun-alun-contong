@@ -73,7 +73,7 @@ class RTRWController extends Controller
         $photosBase64 = [];
 
         if ($surveys->isEmpty()) {
-            Flasher::addError('Data foto survey tidak ditemukan.');
+            Flasher::addWarning('Pengajuan tidak memiliki foto survey.');
         } else {
             foreach ($surveys as $survey) {
                 $filename = $survey->picname;

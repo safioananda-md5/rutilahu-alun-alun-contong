@@ -35,6 +35,20 @@ class ViewServiceProvider extends ServiceProvider
             $view->with(['posisitonStatus' => $posisitonStatus, 'posisitonParent' => $posisitonParent, 'posisitonNumber' => $posisitonNumber]);
         });
 
+        View::composer('layouts.navbar', function ($view) {
+            $posisitonStatus = "";
+            $posisitonParent = "";
+            $posisitonNumber = "";
+            if (Auth::check() && Auth::user()->role === 'rtrw') {
+                $posisiton = RTRW::where('user_id', Auth::id())->first();
+                $posisitonStatus = $posisiton->status;
+                $posisitonParent = $posisiton->parent;
+                $posisitonNumber = $posisiton->number;
+            }
+            $view->with(['posisitonStatus' => $posisitonStatus, 'posisitonParent' => $posisitonParent, 'posisitonNumber' => $posisitonNumber]);
+        });
+
+
         View::composer('layouts.sidebar', function ($view) {
             $posisitonStatus = "";
             if (Auth::check() && Auth::user()->role === 'rtrw') {

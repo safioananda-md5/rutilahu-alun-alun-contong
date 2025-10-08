@@ -35,6 +35,18 @@
                                                 <a href="{{ route('admin.dashboard_admin') }}">Halaman Admin</a>
                                             </li>
                                         @endif
+                                        @if (Auth::user()->role === 'rtrw')
+                                            @if ($posisitonStatus === 'RT')
+                                                <li>
+                                                    <a href="{{ route('RT.dashboard_rt') }}">Halaman RT</a>
+                                                </li>
+                                            @else
+                                                <li>
+                                                    <a href="{{ route('RW.dashboard_rw') }}">Halaman RW</a>
+                                                </li>
+                                            @endif
+
+                                        @endif
                                     @endif
                                 </ul>
                             </div>
