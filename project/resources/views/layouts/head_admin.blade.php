@@ -34,4 +34,5 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@flasher/flasher/dist/flasher.min.css">
 
+
 <meta name="csrf-token" content="{{ csrf_token() }}">

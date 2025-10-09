@@ -61,12 +61,40 @@
                         </li>
                     </ul>
                 </li>
-                <li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)">
+                        <i class="ri-hand-heart-line text-xl me-14 d-flex w-auto"></i>
+                        <span>Bantuan RUTILAHU</span>
+                    </a>
+                    <ul class="sidebar-submenu">
+                        <li>
+                            <a href="{{ route('admin.verification.submission_verify_admin') }}"><i
+                                    class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
+                                Verifikasi Pengajuan</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.batch.submission_batch_admin') }}"><i
+                                    class="ri-circle-fill circle-icon text-info-600 w-auto"></i>
+                                Batch Penerimaan</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.submission_prospective_admin') }}"><i
+                                    class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
+                                Calon Penerima</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.information.list_information') }}"><i
+                                    class="ri-circle-fill circle-icon text-success-600 w-auto"></i>
+                                Data Penerima</a>
+                        </li>
+                    </ul>
+                </li>
+                {{-- <li>
                     <a href="javascript:void(0)">
                         <iconify-icon icon="solar:calculator-outline" class="menu-icon"></iconify-icon>
                         <span>Uji Rekomendasi Peneriman Bantuan</span>
                     </a>
-                </li>
+                </li> --}}
             @endif
             <li>
                 <form action="{{ route('logout') }}" method="POST">

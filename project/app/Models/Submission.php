@@ -46,4 +46,9 @@ class Submission extends Model
     {
         return $this->hasMany(Survey::class);
     }
+
+    public function batchitem()
+    {
+        return $this->hasOne(batch::class);
+    }
 }

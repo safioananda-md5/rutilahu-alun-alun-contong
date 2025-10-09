@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Batch;
+use App\Models\BatchItem;
 use App\Models\RTRW;
 use App\Models\Submission;
 use Throwable;
@@ -13,17 +15,15 @@ use Flasher\Laravel\Facade\Flasher;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
+use PhpParser\Node\Stmt\Return_;
 
 class AdminController extends Controller
 {
     public function index()
     {
-        $submissions = Submission::with('user')
-            ->whereNotIn('status', [1, 3, 5, 7, 8, 9])
-            ->get();
-        $prospectivesubmissions = Submission::with('user')->where('status', 8)->get();
+
         $recipientsubmissions = Submission::with('user')->where('status', 9)->get();
-        return view('page.dashboard.admin', compact('submissions', 'prospectivesubmissions', 'recipientsubmissions'));
+        return view('page.dashboard.admin', compact('recipientsubmissions'));
     }
 
     public function account_verify()
@@ -313,5 +313,140 @@ class AdminController extends Controller
                 "status" => 0,
             ], 422);
         }
+    }
+
+    public function submission_verify()
+    {
+        $submissions = Submission::with('user')
+            ->whereNotIn('status', [1, 3, 5, 7, 8, 9])
+            ->get();
+        return view('page.admin.submission_verify', compact('submissions'));
+    }
+
+    public function submission_prospective()
+    {
+        $prospectivesubmissions = Submission::with('user')
+            ->where('status', 8)
+            ->whereNotIn('id', function ($query) {
+                $query->select('submission_id')
+                    ->from('batch_items');
+            })
+            ->get();
+        return view('page.admin.submission_prospective', compact('prospectivesubmissions'));
+    }
+
+    public function submission_batch()
+    {
+        $currentYear = date('Y');
+        $startYear = $currentYear - 5;
+
+        $months = [
+            1 => 'Januari',
+            2 => 'Februari',
+            3 => 'Maret',
+            4 => 'April',
+            5 => 'Mei',
+            6 => 'Juni',
+            7 => 'Juli',
+            8 => 'Agustus',
+            9 => 'September',
+            10 => 'Oktober',
+            11 => 'November',
+            12 => 'Desember'
+        ];
+        $currentMonth = date("n");
+
+        $batches = $batches = Batch::withCount('batchitem')->get();
+        return view('page.admin.submission_batch', compact('currentYear', 'startYear', 'months', 'currentMonth', 'batches'));
+    }
+
+    public function submission_batch_store(Request $request)
+    {
+        try {
+            $request->validate(
+                [
+                    'batchName' => 'required|string|max:255',
+                    'batchYear' => 'required',
+                    'batchMonth' => 'required',
+                ],
+                [
+                    'batchName.required' => 'Nama Batch wajib diisi!',
+                    'batchYear.required' => 'Tahun Batch wajib dipilih!',
+                    'batchMonth.required' => 'Bulan Batch wajib dipilih!',
+                ]
+            );
+
+            DB::beginTransaction();
+
+            Batch::create([
+                'name' => $request->batchName,
+                'year' => $request->batchYear,
+                'month' => $request->batchMonth,
+                'status' => 'on progres',
+            ]);
+
+            DB::commit();
+            Flasher::addSuccess('Batch berhasil disimpan.');
+            return redirect()->back();
+        } catch (ValidationException $e) {
+            DB::rollBack();
+            $errors = $e->errors();
+            $allErrors = collect($errors)->flatten()->implode('<br>');
+            Flasher::addError('Inputan Gagal! Periksa kembali isian Anda. <br>' . $allErrors);
+            return redirect()->back();
+        }
+    }
+
+    public function submission_batch_detail($id)
+    {
+        $prospectivesubmissions = Submission::with('user')
+            ->where('status', 8)
+            ->whereNotIn('id', function ($query) {
+                $query->select('submission_id')
+                    ->from('batch_items');
+            })->get();
+        $id_DC = Crypt::decrypt($id);
+        $batch = Batch::where('id', $id_DC)->firstOrFail();
+        $batchitems = BatchItem::with('batch', 'submission.user')->where('batch_id', $id_DC)->get();
+        return view('page.admin.submission_batch_detail', compact('batch', 'batchitems', 'prospectivesubmissions'));
+    }
+
+    public function calculation_submission_store(Request $request)
+    {
+        try {
+            $request->validate(
+                [
+                    'picknumber' => 'required|numeric'
+                ],
+                [
+                    'picknumber.required' => 'Jumlah Penerima wajib diisi!',
+                    'picknumber.numeric' => 'Jumlah Penerima wajib berupa angka!'
+                ]
+            );
+            $datacount = $prospectivesubmissions = Submission::with('user')
+                ->where('status', 8)
+                ->whereNotIn('id', function ($query) {
+                    $query->select('submission_id')
+                        ->from('batch_items');
+                })
+                ->count();
+            $count = $request->picknumber;
+            if ($count > $datacount) {
+                Flasher::addError('Jumlah Penerima tidak boleh lebih banyak dari jumlah data');
+                return redirect()->back();
+            }
+            return redirect(route('admin.math.calculation_submission', Crypt::encrypt($count)));
+        } catch (ValidationException $e) {
+            $errors = $e->errors();
+            $allErrors = collect($errors)->flatten()->implode('<br>');
+            Flasher::addError('Inputan Gagal! Periksa kembali isian Anda. <br>' . $allErrors);
+            return redirect()->back();
+        }
+    }
+
+    public function calculation_submission($count)
+    {
+        $count_DC = Crypt::decrypt($count);
+        return view('page.math.calculation_submission');
     }
 }

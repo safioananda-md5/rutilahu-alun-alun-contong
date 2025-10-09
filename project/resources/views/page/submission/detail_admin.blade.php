@@ -79,6 +79,18 @@
                                                 <td>No. Telepon</td>
                                                 <td class="ps-8">: {{ $submission->user->phone }}</td>
                                             </tr>
+                                            <tr>
+                                                <td>Status Keluarga Miskin</td>
+                                                <td class="ps-8">:
+                                                    @if ($submission->user->poor_family_status === 'non-gamis')
+                                                        <span
+                                                            class="badge bg-danger">{{ Str::upper($submission->user->poor_family_status) }}</span>
+                                                    @else
+                                                        <span
+                                                            class="badge bg-success">{{ Str::upper($submission->user->poor_family_status) }}</span>
+                                                    @endif
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -116,57 +128,89 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @if ($submission->user->poor_family_status === 'non-gamis')
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>Penghasilan</td>
+                                                    <td>
+                                                        {{ 'Rp ' . number_format($submission->revenue, 0, ',', '.') }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2</td>
+                                                    <td>Asset</td>
+                                                    <td>
+                                                        {{ 'Rp ' . number_format($submission->asset, 0, ',', '.') }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>3</td>
+                                                    <td>Tanggungan Angota Keluarga</td>
+                                                    <td>
+                                                        {{ $submission->dependents }} Orang
+                                                    </td>
+                                                </tr>
+                                            @endif
                                             <tr>
-                                                <td>1</td>
-                                                <td>Penghasilan</td>
                                                 <td>
-                                                    {{ 'Rp ' . number_format($submission->revenue, 0, ',', '.') }}
+                                                    @if ($submission->user->poor_family_status === 'non-gamis')
+                                                        3
+                                                    @else
+                                                        1
+                                                    @endif
                                                 </td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>Asset</td>
-                                                <td>
-                                                    {{ 'Rp ' . number_format($submission->asset, 0, ',', '.') }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                <td>Tanggungan Angota Keluarga</td>
-                                                <td>
-                                                    {{ $submission->dependents }} Orang
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
                                                 <td>Luas Bangunan</td>
                                                 <td>
                                                     {{ $submission->building_area }} m<sup>2</sup>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>4</td>
+                                                <td>
+                                                    @if ($submission->user->poor_family_status === 'non-gamis')
+                                                        4
+                                                    @else
+                                                        2
+                                                    @endif
+                                                </td>
                                                 <td>Legalitas Bangunan</td>
                                                 <td>
                                                     {!! \App\Helpers\PengajuanStatusHelper::Legality($submission->building_legality) !!}
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>5</td>
+                                                <td>
+                                                    @if ($submission->user->poor_family_status === 'non-gamis')
+                                                        5
+                                                    @else
+                                                        3
+                                                    @endif
+                                                </td>
                                                 <td>Kondisi Atap Bangunan</td>
                                                 <td>
                                                     {!! \App\Helpers\PengajuanStatusHelper::Roof($submission->roof_condition) !!}
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>6</td>
+                                                <td>
+                                                    @if ($submission->user->poor_family_status === 'non-gamis')
+                                                        6
+                                                    @else
+                                                        4
+                                                    @endif
+                                                </td>
                                                 <td>Kondisi Dinding Bangunan</td>
                                                 <td>
                                                     {!! \App\Helpers\PengajuanStatusHelper::Wall($submission->wall_condition) !!}
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>7</td>
+                                                <td>
+                                                    @if ($submission->user->poor_family_status === 'non-gamis')
+                                                        8
+                                                    @else
+                                                        5
+                                                    @endif
+                                                </td>
                                                 <td>Kondisi Lantai Bangunan</td>
                                                 <td>
                                                     {!! \App\Helpers\PengajuanStatusHelper::Floor($submission->floor_condition) !!} <br>

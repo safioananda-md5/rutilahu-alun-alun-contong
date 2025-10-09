@@ -81,6 +81,7 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.', 'middleware' => 'checkRole
         Route::get('/show/KiapbdVqajxM/{id}', [AdminController::class, 'showSKTP'])->name('showSKTP');
         Route::get('/show/s1q6IppjLCiR/{id}', [AdminController::class, 'showKK'])->name('showKK');
         Route::post('/store/{id}', [AdminController::class, 'store'])->name('store');
+        Route::get('/daftar-verifikasi-pengajuan', [AdminController::class, 'submission_verify'])->name('submission_verify_admin');
     });
     Route::group(['prefix' => '/informasi', 'as' => 'information.'], function () {
         Route::get('/daftar-informasi', [InformationController::class, 'list_information'])->name("list_information");
@@ -100,6 +101,18 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.', 'middleware' => 'checkRole
     Route::get('/detail-pengajuan/{id}', [RTRWController::class, 'detail'])->name("detail_pengajuan");
     Route::post('/survey-pengajuan/photo/upload/{id}', [SubmissionController::class, 'upload'])->name("upload_survey");
     Route::delete('/survey-pengajuan/photo/destroy/{id}', [SubmissionController::class, 'destroy'])->name("destroy_survey");
+    Route::get('/data-calon-penerima', [AdminController::class, 'submission_prospective'])->name('submission_prospective_admin');
+
+    Route::group(['prefix' => '/batch', 'as' => 'batch.'], function () {
+        Route::get('/batch-penerimaan', [AdminController::class, 'submission_batch'])->name('submission_batch_admin');
+        Route::post('/batch-penerimaan', [AdminController::class, 'submission_batch_store'])->name('submission_batch_store');
+        Route::get('/detail-penerimaan-batch/{id}', [AdminController::class, 'submission_batch_detail'])->name('submission_batch_detail');
+    });
+
+    Route::group(['prefix' => '/math', 'as' => 'math.'], function () {
+        Route::post('/rekomendasi-pengajuan', [AdminController::class, 'calculation_submission_store'])->name('calculation_submission_store');
+        Route::get('/rekomendasi-pengajuan/{count}', [AdminController::class, 'calculation_submission'])->name('calculation_submission');
+    });
 });
 
 

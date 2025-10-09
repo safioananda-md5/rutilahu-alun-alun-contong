@@ -24,7 +24,7 @@ return new class extends Migration
             $table->float('revenue');
             $table->float('asset');
             $table->integer('dependents');
-            $table->integer('building_area');
+            $table->float('building_area');
             $table->integer('building_legality');
             $table->integer('roof_condition');
             $table->integer('wall_condition');
